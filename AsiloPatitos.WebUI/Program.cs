@@ -1,3 +1,6 @@
+using AsiloPatitos.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+
 namespace AsiloPatitos.WebUI
 {
     public class Program
@@ -8,6 +11,11 @@ namespace AsiloPatitos.WebUI
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    builder.Configuration.GetConnectionString("DefaultConnection")
+                )
+            );
 
             var app = builder.Build();
 
