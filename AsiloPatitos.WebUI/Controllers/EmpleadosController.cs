@@ -12,11 +12,13 @@ namespace AsiloPatitos.WebUI.Controllers
 {
     public class EmpleadosController : Controller
     {
+        private readonly ILogger<EmpleadosController> _logger;
         private readonly ApplicationDbContext _context;
 
-        public EmpleadosController(ApplicationDbContext context)
+        public EmpleadosController(ApplicationDbContext context, ILogger<EmpleadosController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: Empleados
@@ -54,15 +56,31 @@ namespace AsiloPatitos.WebUI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Cedula,FechaIngreso,Departamento,Perfil")] Empleado empleado)
+        public async Task<IActionResult> Create(Empleado empleado)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(empleado);
+
+            try
             {
+                bool existe = await _context.Empleados
+                    .AnyAsync(e => e.Cedula == empleado.Cedula);
+                if (existe)
+                {
+                    ModelState.AddModelError("Cedula", "Ya existe un empleado con esta cédula.");
+                    return View(empleado);
+                }
+
                 _context.Add(empleado);
                 await _context.SaveChangesAsync();
+                TempData["Success"] = "Empleado creado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
-            return View(empleado);
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Error creando empleado");
+                TempData["Error"] = "No se pudo guardar el empleado. Intenta de nuevo.";
+                return View(empleado);
+            }
         }
 
         // GET: Empleados/Edit/5
@@ -86,35 +104,43 @@ namespace AsiloPatitos.WebUI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Cedula,FechaIngreso,Departamento,Perfil")] Empleado empleado)
+        public async Task<IActionResult> Edit(int id, Empleado empleado)
         {
-            if (id != empleado.Id)
-            {
-                return NotFound();
-            }
+            if (id != empleado.Id) return NotFound();
+            if (!ModelState.IsValid) return View(empleado);
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                bool cedulaTomada = await _context.Empleados
+                    .AnyAsync(e => e.Cedula == empleado.Cedula && e.Id != empleado.Id);
+                if (cedulaTomada)
                 {
-                    _context.Update(empleado);
-                    await _context.SaveChangesAsync();
+                    ModelState.AddModelError("Cedula", "La cédula ya está asignada a otro empleado.");
+                    return View(empleado);
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EmpleadoExists(empleado.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+
+                _context.Update(empleado);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Empleado actualizado.";
                 return RedirectToAction(nameof(Index));
             }
-            return View(empleado);
+            catch (DbUpdateConcurrencyException ex)
+            {
+                if (!await _context.Empleados.AnyAsync(e => e.Id == empleado.Id))
+                    return NotFound();
+
+                _logger.LogError(ex, "Concurrencia editando empleado");
+                TempData["Error"] = "Otro usuario modificó este registro. Refresca la página.";
+                return View(empleado);
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Error editando empleado");
+                TempData["Error"] = "No se pudo actualizar el empleado.";
+                return View(empleado);
+            }
         }
+
 
         // GET: Empleados/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -139,19 +165,21 @@ namespace AsiloPatitos.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var empleado = await _context.Empleados.FindAsync(id);
-            if (empleado != null)
+            try
             {
+                var empleado = await _context.Empleados.FindAsync(id);
+                if (empleado == null) return NotFound();
+
                 _context.Empleados.Remove(empleado);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Empleado eliminado.";
             }
-
-            await _context.SaveChangesAsync();
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, "Error eliminando empleado {Id}", id);
+                TempData["Error"] = "No se puede eliminar el empleado. Puede tener dependencias.";
+            }
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool EmpleadoExists(int id)
-        {
-            return _context.Empleados.Any(e => e.Id == id);
         }
     }
 }
