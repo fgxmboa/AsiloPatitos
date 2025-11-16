@@ -31,6 +31,14 @@
         </nav>
     </header>
     <div class="container">
+        @if (TempData["Success"] is string s && !string.IsNullOrWhiteSpace(s))
+        {
+            <div class="alert alert-success mt-3">@s</div>
+        }
+        @if (TempData["Error"] is string e && !string.IsNullOrWhiteSpace(e))
+        {
+            <div class="alert alert-danger mt-3">@e</div>
+        }
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
