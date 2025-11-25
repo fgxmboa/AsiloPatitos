@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Inicio de Sesión";
+}
+
+<h2 class="mb-4">Iniciar Sesión</h2>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+<form asp-action="Login" method="post">
+    <div class="mb-3">
+        <label for="correo" class="form-label">Correo</label>
+        <input type="email" name="correo" id="correo" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label for="contrasena" class="form-label">Contraseña</label>
+        <input type="password" name="contrasena" id="contrasena" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Ingresar</button>
+    <a asp-action="Register" class="btn btn-secondary ms-2">Crear Cuenta</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

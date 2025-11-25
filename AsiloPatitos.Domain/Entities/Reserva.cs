@@ -14,28 +14,35 @@ namespace AsiloPatitos.Domain.Entities
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        // Relaciones
+        [Required(ErrorMessage = "Debe seleccionar un paciente.")]
         public int PacienteId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe seleccionar una habitación.")]
         public int HabitacionId { get; set; }
 
-        [Required]
+        // Fechas
+        [Required(ErrorMessage = "Debe ingresar la fecha de ingreso.")]
+        [DataType(DataType.Date)]
         public DateTime FechaIngreso { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe ingresar la fecha de salida.")]
+        [DataType(DataType.Date)]
+        [CompareDate(nameof(FechaIngreso), ErrorMessage = "La fecha de salida debe ser posterior a la fecha de ingreso.")]
         public DateTime FechaSalida { get; set; }
 
+        // Total
+        [Required(ErrorMessage = "Debe ingresar el total.")]
         [Column(TypeName = "decimal(10,2)")]
         public decimal Total { get; set; }
 
+        // Estado
+        [Required(ErrorMessage = "Debe indicar el estado de la reserva.")]
+        [StringLength(20, ErrorMessage = "El estado no debe superar los 20 caracteres.")]
         public string Estado { get; set; } = "Pendiente";
 
-        // Relaciones
-        [ForeignKey(nameof(PacienteId))]
+        // Navegación
         public Paciente? Paciente { get; set; }
-
-        [ForeignKey(nameof(HabitacionId))]
         public Habitacion? Habitacion { get; set; }
     }
 }
