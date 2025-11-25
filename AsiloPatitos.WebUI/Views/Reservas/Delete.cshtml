@@ -1,57 +1,34 @@
 ﻿@model AsiloPatitos.Domain.Entities.Reserva
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar Reserva";
 }
 
-<h1>Delete</h1>
+<h2>Eliminar Reserva</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h4>¿Está seguro que desea eliminar esta reserva?</h4>
+
 <div>
-    <h4>Reserva</h4>
-    <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaIngreso)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaIngreso)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaSalida)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaSalida)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Total)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Total)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Estado)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Estado)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Paciente)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Paciente.Cedula)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Habitacion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Habitacion.Numero)
-        </dd>
+        <dt class="col-sm-3">Paciente</dt>
+        <dd class="col-sm-9">@Model.Paciente?.Nombre</dd>
+
+        <dt class="col-sm-3">Habitación</dt>
+        <dd class="col-sm-9">@Model.Habitacion?.Numero</dd>
+
+        <dt class="col-sm-3">Fecha ingreso</dt>
+        <dd class="col-sm-9">@Model.FechaIngreso.ToShortDateString()</dd>
+
+        <dt class="col-sm-3">Fecha salida</dt>
+        <dd class="col-sm-9">@Model.FechaSalida.ToShortDateString()</dd>
+
+        <dt class="col-sm-3">Total</dt>
+        <dd class="col-sm-9">@Model.Total</dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
 </div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
