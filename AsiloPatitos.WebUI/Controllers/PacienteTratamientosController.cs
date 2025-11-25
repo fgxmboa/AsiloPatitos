@@ -22,8 +22,12 @@ namespace AsiloPatitos.WebUI.Controllers
         // GET: PacienteTratamientos
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.PacienteTratamientos.Include(p => p.Paciente).Include(p => p.Tratamiento);
-            return View(await applicationDbContext.ToListAsync());
+            var datos = await _context.PacienteTratamientos
+                .Include(p => p.Paciente)
+                .Include(t => t.Tratamiento)
+                .ToListAsync();
+
+            return View(datos);
         }
 
         // GET: PacienteTratamientos/Details/5
@@ -49,8 +53,8 @@ namespace AsiloPatitos.WebUI.Controllers
         // GET: PacienteTratamientos/Create
         public IActionResult Create()
         {
-            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Cedula");
-            ViewData["TratamientoId"] = new SelectList(_context.Tratamientos, "Id", "Descripcion");
+            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Nombre");
+            ViewData["TratamientoId"] = new SelectList(_context.Tratamientos, "Id", "Nombre");
             return View();
         }
 
@@ -59,17 +63,41 @@ namespace AsiloPatitos.WebUI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PacienteId,TratamientoId,FechaAplicacion,Observaciones")] PacienteTratamiento pacienteTratamiento)
+        public async Task<IActionResult> Create(PacienteTratamiento pt)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(pacienteTratamiento);
+                TempData["ErrorMessage"] = "Por favor complete todos los campos requeridos.";
+                ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Nombre", pt.PacienteId);
+                ViewData["TratamientoId"] = new SelectList(_context.Tratamientos, "Id", "Nombre", pt.TratamientoId);
+                return View(pt);
+            }
+
+            try
+            {
+                // Evitar duplicados del mismo tratamiento en la misma fecha
+                bool existe = await _context.PacienteTratamientos
+                    .AnyAsync(x =>
+                        x.PacienteId == pt.PacienteId &&
+                        x.TratamientoId == pt.TratamientoId &&
+                        x.FechaAplicacion.Date == pt.FechaAplicacion.Date);
+
+                if (existe)
+                {
+                    TempData["ErrorMessage"] = "Este tratamiento ya fue aplicado al paciente en esa fecha.";
+                    return RedirectToAction(nameof(Index));
+                }
+
+                _context.Add(pt);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Tratamiento registrado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Cedula", pacienteTratamiento.PacienteId);
-            ViewData["TratamientoId"] = new SelectList(_context.Tratamientos, "Id", "Descripcion", pacienteTratamiento.TratamientoId);
-            return View(pacienteTratamiento);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Ocurrió un error al guardar los datos: " + ex.Message;
+                return View(pt);
+            }
         }
 
         // GET: PacienteTratamientos/Edit/5
@@ -128,23 +156,16 @@ namespace AsiloPatitos.WebUI.Controllers
         }
 
         // GET: PacienteTratamientos/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var pacienteTratamiento = await _context.PacienteTratamientos
+            var item = await _context.PacienteTratamientos
                 .Include(p => p.Paciente)
-                .Include(p => p.Tratamiento)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (pacienteTratamiento == null)
-            {
-                return NotFound();
-            }
+                .Include(t => t.Tratamiento)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
-            return View(pacienteTratamiento);
+            if (item == null) return NotFound();
+
+            return View(item);
         }
 
         // POST: PacienteTratamientos/Delete/5
@@ -152,13 +173,15 @@ namespace AsiloPatitos.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var pacienteTratamiento = await _context.PacienteTratamientos.FindAsync(id);
-            if (pacienteTratamiento != null)
+            var item = await _context.PacienteTratamientos.FindAsync(id);
+
+            if (item != null)
             {
-                _context.PacienteTratamientos.Remove(pacienteTratamiento);
+                _context.PacienteTratamientos.Remove(item);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Registro eliminado correctamente.";
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

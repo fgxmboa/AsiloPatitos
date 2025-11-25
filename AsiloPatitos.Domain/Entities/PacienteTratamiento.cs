@@ -14,22 +14,24 @@ namespace AsiloPatitos.Domain.Entities
         public int Id { get; set; }
 
         // Relaciones
-        [Required]
+        [Required(ErrorMessage = "Debe seleccionar un paciente.")]
         public int PacienteId { get; set; }
 
         [ForeignKey(nameof(PacienteId))]
-        public Paciente Paciente { get; set; } = null!;
+        public Paciente? Paciente { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe seleccionar un tratamiento.")]
         public int TratamientoId { get; set; }
 
         [ForeignKey(nameof(TratamientoId))]
-        public Tratamiento Tratamiento { get; set; } = null!;
+        public Tratamiento? Tratamiento { get; set; }
 
         // Propiedades adicionales
-        [Required]
+        [Required(ErrorMessage = "Debe ingresar la fecha de aplicación.")]
+        [DataType(DataType.Date)]
         public DateTime FechaAplicacion { get; set; }
 
+        [StringLength(300, ErrorMessage = "Las observaciones no deben superar los 300 caracteres.")]
         public string? Observaciones { get; set; }
     }
 }
