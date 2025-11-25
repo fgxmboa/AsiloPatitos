@@ -1,10 +1,11 @@
 /* ============================
-   COLORES
+   PALETA DE COLORES
 ============================ */
 :root {
-    --negro: #000;
+    --negro: #000000;
     --amarillo: #FFED54;
-    --blanco: #FFF;
+    --amarillo-claro: #FFF9A8;
+    --blanco: #FFFFFF;
     --crema-hero: #FFF9C5;
     --celeste-intenso: #56E1EA;
     --marron: #8F662D;
@@ -16,17 +17,18 @@
    GLOBAL
 ============================ */
 body {
-    background: #ffffff !important;
-    font-family: 'Poppins', sans-serif;
-    color: #333;
+    background-color: #FFFFFF !important;
+    font-family: "Poppins", sans-serif;
+    color: #333333;
+    margin: 0;
 }
 
 /* ============================
    NAVBAR
 ============================ */
 .site-navbar {
-    background: var(--celeste-intenso);
-    padding: .7rem 1.2rem;
+    background-color: var(--celeste-intenso);
+    padding: 0.7rem 1.2rem;
 }
 
 .brand-logo {
@@ -35,31 +37,31 @@ body {
 
 .brand-title {
     font-weight: 700;
-    color: white;
+    color: var(--negro);
 }
 
 .nav-link {
-    color: white !important;
+    color: var(--negro) !important;
     font-weight: 600;
 }
 
-/* BOTÓN LOGIN */
+/* BOTÓN INICIAR SESIÓN */
 .btn-nav-login {
-    background: #ffffff;
+    background-color: #FFFFFF;
     color: var(--celeste-intenso);
     font-weight: 700;
     padding: 6px 18px;
     border-radius: 12px;
+    border: 2px solid #FFFFFF;
     box-shadow: var(--sombra);
 }
 
     .btn-nav-login:hover {
-        background: #eefeFF;
-        color: #148fb5;
+        background-color: #E8FBFF;
     }
 
 /* ============================
-   HERO
+   HERO PRINCIPAL
 ============================ */
 .hero-section {
     background-color: var(--crema-hero) !important;
@@ -75,21 +77,23 @@ body {
 .hero-sub {
     font-size: 1.1rem;
     color: #444;
-    max-width: 450px;
+    max-width: 470px;
 }
 
 .hero-logo {
     width: 310px;
+    height: auto;
 }
 
 /* BOTONES HERO */
 .hero-btn-primary {
-    background: var(--celeste-intenso);
-    color: white;
+    background-color: var(--celeste-intenso);
+    color: #FFFFFF;
     padding: 14px 28px;
     font-weight: 700;
     border-radius: 14px;
     box-shadow: var(--sombra);
+    border: none;
 }
 
     .hero-btn-primary:hover {
@@ -97,7 +101,7 @@ body {
     }
 
 .hero-btn-secondary {
-    background: white;
+    background-color: #FFFFFF;
     border: 2px solid var(--celeste-intenso);
     color: var(--celeste-intenso);
     padding: 14px 28px;
@@ -107,36 +111,47 @@ body {
 }
 
     .hero-btn-secondary:hover {
-        background: #eefaff;
+        background-color: #EEF7FF;
     }
 
 /* ============================
-   TARJETAS PREMIUM
+   QUIÉNES SOMOS
 ============================ */
+.section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--marron);
+}
+
+.section-sub {
+    color: #555;
+}
+
 .card-custom {
-    background: white;
+    background-color: #FFFFFF;
     border-radius: 16px;
     padding: 25px;
     text-align: center;
     box-shadow: var(--sombra);
-    height: 100%;
 }
 
 .icon-large {
     font-size: 40px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
-.card-custom h5, .card-custom h6 {
-    font-weight: 700;
-    color: var(--marron);
+/* ============================
+   SERVICIOS
+============================ */
+#servicios {
+    background-color: #FFFFFF;
 }
 
 /* ============================
    HABITACIONES
 ============================ */
 .card-room {
-    background: white;
+    background-color: #FFFFFF;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: var(--sombra);
@@ -154,19 +169,29 @@ body {
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
 }
 
-    .card-room-body h5 {
-        font-weight: 700;
-        color: var(--marron);
+.btn-room {
+    margin-top: auto;
+    background-color: var(--amarillo) !important;
+    border: 2px solid #E0CF3D !important;
+    color: var(--marron) !important;
+    font-weight: 700;
+    border-radius: 10px;
+    padding: 10px;
+    transition: 0.2s ease;
+}
+
+    .btn-room:hover {
+        background-color: var(--amarillo-claro) !important;
+        transform: scale(1.03);
     }
 
 /* ============================
    RESEÑAS
 ============================ */
 .card-review {
-    background: white;
+    background-color: #FFFFFF;
     border: 2px solid var(--gris-borde);
     border-radius: 16px;
     padding: 1.2rem;
@@ -180,10 +205,10 @@ body {
     width: 55px;
     height: 55px;
     border-radius: 50%;
-    background: #FFF3A5;
+    background-color: #FFF3A5;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     font-weight: 700;
 }
 
@@ -192,10 +217,303 @@ body {
 }
 
 /* ============================
+   FORMULARIOS
+============================ */
+.card-form {
+    background: #FFF9C5;
+    border-radius: 18px;
+    padding: 2rem;
+    box-shadow: var(--sombra);
+    border: 2px solid #F2EAA5;
+}
+
+.form-title {
+    font-weight: 800;
+    color: var(--marron);
+}
+
+.form-label-custom {
+    font-weight: 700;
+    color: var(--marron);
+}
+
+.form-input {
+    border-radius: 10px;
+    padding: 10px 14px;
+    border: 2px solid #E6E6E6;
+    background: #FFFFFF;
+}
+
+    .form-input:focus {
+        border-color: var(--celeste-intenso);
+        box-shadow: 0 0 8px rgba(86,225,234,0.4);
+    }
+
+.btn-form-submit {
+    background: var(--marron);
+    color: white;
+    padding: 14px;
+    font-weight: 700;
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 5px 10px rgba(143,102,45,.3);
+}
+
+    .btn-form-submit:hover {
+        background: #A17239;
+    }
+
+/* ============================
+   INDEX DE EMPLEADOS
+============================ */
+.card-page {
+    background: #FFFFFF;
+    padding: 2rem;
+    border-radius: 18px;
+    box-shadow: var(--sombra);
+    border: 2px solid #f5f5f5;
+}
+
+.page-title {
+    font-weight: 800;
+    color: var(--marron);
+}
+
+.btn-create {
+    background: var(--amarillo);
+    border: 2px solid #D9C53F;
+    color: var(--marron);
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-weight: 700;
+}
+
+    .btn-create:hover {
+        background: var(--amarillo-claro);
+        transform: scale(1.02);
+    }
+
+.table-custom thead tr {
+    background: #FFF3A5;
+}
+
+.table-custom thead th {
+    color: var(--marron);
+    font-weight: 700;
+    padding: 14px;
+}
+
+.table-custom tbody td {
+    padding: 14px;
+    color: #444;
+}
+
+.btn-action {
+    padding: 6px 12px;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+    .btn-action.edit {
+        background: var(--celeste-intenso);
+        color: white;
+    }
+
+    .btn-action.details {
+        background: #FFF9C5;
+        color: var(--marron);
+    }
+
+    .btn-action.delete {
+        background: #ffdad6;
+        color: #9b2c2c;
+    }
+
+/* ============================
    FOOTER
 ============================ */
 .site-footer {
-    background: var(--celeste-intenso);
+    background-color: var(--celeste-intenso);
+    color: #FFFFFF;
+    font-weight: 700;
+    text-align: center;
+}
+/* ============================
+   DETAILS (DETALLES)
+============================ */
+.card-details {
+    background: #FFFFFF;
+    border-radius: 18px;
+    padding: 2rem;
+    border: 2px solid var(--gris-borde);
+    box-shadow: var(--sombra);
+}
+
+.details-title {
+    font-weight: 800;
+    color: var(--marron);
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.detail-label {
+    font-weight: 700;
+    color: var(--marron);
+}
+
+.detail-value {
+    font-weight: 500;
+    color: #444;
+}
+
+/* ============================
+   DELETE (ELIMINAR)
+============================ */
+.card-delete {
+    background: #FFFFFF;
+    border-radius: 18px;
+    padding: 2rem;
+    border: 2px solid #f3d1d1;
+    box-shadow: var(--sombra);
+}
+
+.delete-title {
+    font-weight: 800;
+    color: var(--marron);
+    text-align: center;
+}
+
+.delete-warning {
+    font-weight: 700;
+    color: #8b1c1c;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.delete-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.delete-label {
+    font-weight: 700;
+    color: var(--marron);
+}
+
+.delete-value {
+    font-weight: 500;
+    color: #444;
+}
+
+.btn-delete-confirm {
+    background: #ff8b8b;
+    border: 2px solid #d95353;
     color: white;
+    padding: 10px 20px;
+    font-weight: 700;
+    border-radius: 12px;
+}
+
+    .btn-delete-confirm:hover {
+        background: #ff6a6a;
+    }
+
+.btn-back {
+    background: #ffdad6;
+    border: 2px solid #e0b1b1;
+    color: #8b1c1c;
+    padding: 10px 20px;
+    border-radius: 12px;
     font-weight: 700;
 }
+
+    .btn-back:hover {
+        background: #ffc7c2;
+    }
+
+/* ================================================
+   QUITAR SUBRAYADO A TODOS LOS BOTONES
+================================================ */
+a.btn,
+.btn,
+.btn-action,
+.btn-cancel,
+.btn-form-submit,
+.btn-create,
+button,
+input[type=submit] {
+    text-decoration: none !important;
+}
+
+/* ================================================
+   TARJETAS DE FORMULARIO AMARILLAS (EDIT – DELETE – DETAILS – CREATE)
+================================================ */
+.card-form,
+.card-details,
+.card-delete {
+    background: #FFF9C5;
+    border-radius: 18px;
+    padding: 2rem;
+    border: 2px solid #F2EAA5;
+    box-shadow: var(--sombra);
+}
+
+/* ==========
+   BOTONES
+=============*/
+.btn-cancel {
+    background: #FFE5E0;
+    border: 2px solid #F4B7B0;
+    color: #9b2c2c !important;
+    padding: 10px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-decoration: none !important;
+    box-shadow: var(--sombra);
+}
+
+    .btn-cancel:hover {
+        background: #FFD1CA;
+    }
+
+
+.btn-form-submit {
+    background: var(--marron) !important;
+    color: white !important;
+    border-radius: 12px;
+    padding: 12px 22px;
+    font-weight: 700;
+    border: none;
+    box-shadow: 0 5px 10px rgba(143,102,45,.3);
+}
+
+    .btn-form-submit:hover {
+        background: #A17239 !important;
+    }
+
+.btn-back {
+    display: inline-block;
+    background: #FFF3A5;
+    padding: 10px 18px;
+    border-radius: 12px;
+    border: 2px solid #E2D075;
+    font-weight: 700;
+    color: var(--marron) !important;
+    text-decoration: none !important;
+    box-shadow: var(--sombra);
+}
+
+    .btn-back:hover {
+        background: var(--amarillo-claro);
+        transform: scale(1.03);
+    }

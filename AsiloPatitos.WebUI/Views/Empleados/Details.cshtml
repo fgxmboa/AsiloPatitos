@@ -1,48 +1,41 @@
 ﻿@model AsiloPatitos.Domain.Entities.Empleado
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles del Empleado";
 }
 
-<h1>Details</h1>
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
 
-<div>
-    <h4>Empleado</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cedula)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cedula)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaIngreso)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaIngreso)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Departamento)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Departamento)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Perfil)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Perfil)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+            <div class="card-form card-details">
+
+                <h2 class="form-title mb-4">Detalles del Empleado</h2>
+
+                <dl class="row mb-4">
+                    <dt class="col-sm-4 fw-bold">Nombre</dt>
+                    <dd class="col-sm-8">@Model.Nombre</dd>
+
+                    <dt class="col-sm-4 fw-bold">Cédula</dt>
+                    <dd class="col-sm-8">@Model.Cedula</dd>
+
+                    <dt class="col-sm-4 fw-bold">Fecha Ingreso</dt>
+                    <dd class="col-sm-8">@Model.FechaIngreso.ToShortDateString()</dd>
+
+                    <dt class="col-sm-4 fw-bold">Departamento</dt>
+                    <dd class="col-sm-8">@Model.Departamento</dd>
+
+                    <dt class="col-sm-4 fw-bold">Perfil</dt>
+                    <dd class="col-sm-8">@Model.Perfil</dd>
+                </dl>
+
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn-cancel">Volver</a>
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-form-submit">Editar</a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>

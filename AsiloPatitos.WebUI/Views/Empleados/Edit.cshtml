@@ -4,52 +4,50 @@
     ViewData["Title"] = "Editar Empleado";
 }
 
-<h1>@ViewData["Title"]</h1>
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            @Html.AntiForgeryToken()
+            <div class="card-form">
+                <h2 class="form-title mb-4">Editar Empleado</h2>
 
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
+                <form asp-action="Edit">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label-custom"></label>
+                        <input asp-for="Nombre" class="form-input form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Cedula" class="form-label-custom"></label>
+                        <input asp-for="Cedula" class="form-input form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="FechaIngreso" class="form-label-custom"></label>
+                        <input asp-for="FechaIngreso" class="form-input form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Departamento" class="form-label-custom"></label>
+                        <input asp-for="Departamento" class="form-input form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Perfil" class="form-label-custom"></label>
+                        <input asp-for="Perfil" class="form-input form-control" />
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a asp-action="Index" class="btn-cancel">Cancelar</a>
+                        <button type="submit" class="btn-form-submit">Guardar cambios</button>
+                    </div>
+
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Cedula" class="control-label"></label>
-                <input asp-for="Cedula" class="form-control" />
-                <span asp-validation-for="Cedula" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FechaIngreso" class="control-label"></label>
-                <input asp-for="FechaIngreso" class="form-control" />
-                <span asp-validation-for="FechaIngreso" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Departamento" class="control-label"></label>
-                <input asp-for="Departamento" class="form-control" />
-                <span asp-validation-for="Departamento" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Perfil" class="control-label"></label>
-                <input asp-for="Perfil" class="form-control" />
-                <span asp-validation-for="Perfil" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
-            </div>
-        </form>
+
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Volver a la lista de empleados</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+</section>
