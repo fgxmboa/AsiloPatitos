@@ -1,42 +1,23 @@
 ﻿@model AsiloPatitos.Domain.Entities.PacienteTratamiento
 
-@{
-    ViewData["Title"] = "Details";
-}
+<h2>Detalles del Tratamiento</h2>
 
-<h1>Details</h1>
+<div class="card bg-dark text-light p-4">
 
-<div>
-    <h4>PacienteTratamiento</h4>
-    <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Paciente)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Paciente.Cedula)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tratamiento)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tratamiento.Descripcion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaAplicacion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaAplicacion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Observaciones)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Observaciones)
-        </dd>
+        <dt class="col-sm-3">Paciente</dt>
+        <dd class="col-sm-9">@Model.Paciente.Nombre</dd>
+
+        <dt class="col-sm-3">Tratamiento</dt>
+        <dd class="col-sm-9">@Model.Tratamiento.Nombre</dd>
+
+        <dt class="col-sm-3">Fecha Aplicación</dt>
+        <dd class="col-sm-9">@Model.FechaAplicacion.ToShortDateString()</dd>
+
+        <dt class="col-sm-3">Observaciones</dt>
+        <dd class="col-sm-9">@Model.Observaciones</dd>
     </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
 </div>

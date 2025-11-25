@@ -54,31 +54,37 @@ namespace AsiloPatitos.WebUI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Descripcion,Costo")] Tratamiento tratamiento)
+        public async Task<IActionResult> Create(Tratamiento tr)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(tratamiento);
+                TempData["ErrorMessage"] = "Por favor complete todos los campos requeridos.";
+                return View(tr);
+            }
+
+            try
+            {
+                _context.Add(tr);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Tratamiento creado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
-            return View(tratamiento);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al guardar los datos: " + ex.Message;
+                return View(tr);
+            }
         }
 
         // GET: Tratamientos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var tratamiento = await _context.Tratamientos.FindAsync(id);
-            if (tratamiento == null)
-            {
-                return NotFound();
-            }
-            return View(tratamiento);
+            var t = await _context.Tratamientos.FindAsync(id);
+            if (t == null) return NotFound();
+
+            return View(t);
         }
 
         // POST: Tratamientos/Edit/5
@@ -86,52 +92,39 @@ namespace AsiloPatitos.WebUI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Descripcion,Costo")] Tratamiento tratamiento)
+        public async Task<IActionResult> Edit(int id, Tratamiento tr)
         {
-            if (id != tratamiento.Id)
+            if (id != tr.Id) return NotFound();
+
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "Por favor complete todos los campos requeridos.";
+                return View(tr);
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    _context.Update(tratamiento);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TratamientoExists(tratamiento.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _context.Update(tr);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Tratamiento actualizado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
-            return View(tratamiento);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al actualizar los datos: " + ex.Message;
+                return View(tr);
+            }
         }
 
         // GET: Tratamientos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var tratamiento = await _context.Tratamientos
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (tratamiento == null)
-            {
-                return NotFound();
-            }
+            var t = await _context.Tratamientos.FirstOrDefaultAsync(x => x.Id == id);
+            if (t == null) return NotFound();
 
-            return View(tratamiento);
+            return View(t);
         }
 
         // POST: Tratamientos/Delete/5
@@ -139,13 +132,24 @@ namespace AsiloPatitos.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var tratamiento = await _context.Tratamientos.FindAsync(id);
-            if (tratamiento != null)
+            var t = await _context.Tratamientos.FindAsync(id);
+            if (t == null)
             {
-                _context.Tratamientos.Remove(tratamiento);
+                TempData["ErrorMessage"] = "No se encontró el tratamiento.";
+                return RedirectToAction(nameof(Index));
             }
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Tratamientos.Remove(t);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Tratamiento eliminado correctamente.";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al eliminar el tratamiento: " + ex.Message;
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

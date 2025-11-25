@@ -1,53 +1,43 @@
 ﻿@model IEnumerable<AsiloPatitos.Domain.Entities.PacienteTratamiento>
 
-@{
-    ViewData["Title"] = "Index";
+<h2>Relaciones Paciente - Tratamiento</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
 }
 
-<h1>Index</h1>
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<a asp-action="Create" class="btn btn-primary mb-3">Nueva Asignación</a>
+
+<table class="table table-dark table-striped">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Paciente)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tratamiento)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaAplicacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Observaciones)
-            </th>
-            <th></th>
+            <th>Paciente</th>
+            <th>Tratamiento</th>
+            <th>Fecha Aplicación</th>
+            <th>Observaciones</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Paciente.Cedula)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tratamiento.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaAplicacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Observaciones)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Paciente.Nombre</td>
+                <td>@item.Tratamiento.Nombre</td>
+                <td>@item.FechaAplicacion.ToShortDateString()</td>
+                <td>@item.Observaciones</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Detalles</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
