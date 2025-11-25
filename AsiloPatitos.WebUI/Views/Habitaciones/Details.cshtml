@@ -4,25 +4,39 @@
     ViewData["Title"] = "Detalles de Habitación";
 }
 
-<h2>Detalles de Habitación</h2>
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
 
-<div class="card shadow-sm p-3">
-    <dl class="row">
-        <dt class="col-sm-3">Número</dt>
-        <dd class="col-sm-9">@Model.Numero</dd>
+            <div class="card-form">
 
-        <dt class="col-sm-3">Tipo</dt>
-        <dd class="col-sm-9">@Model.Tipo</dd>
+                <h2 class="form-title text-center mb-4">Detalles de Habitación</h2>
 
-        <dt class="col-sm-3">Disponible</dt>
-        <dd class="col-sm-9">@(Model.Disponible ? "Sí" : "No")</dd>
+                <div class="card-review mb-4">
+                    <dl class="row mb-0 w-100">
 
-        <dt class="col-sm-3">Precio por Día</dt>
-        <dd class="col-sm-9">₡@Model.PrecioPorDia</dd>
-    </dl>
-</div>
+                        <dt class="col-sm-4 fw-bold">Número</dt>
+                        <dd class="col-sm-8">@Model.Numero</dd>
 
-<div class="mt-3">
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
-    <a asp-action="Index" class="btn btn-secondary">Volver</a>
-</div>
+                        <dt class="col-sm-4 fw-bold">Tipo</dt>
+                        <dd class="col-sm-8">@Model.Tipo</dd>
+
+                        <dt class="col-sm-4 fw-bold">Disponible</dt>
+                        <dd class="col-sm-8">@(Model.Disponible ? "Sí" : "No")</dd>
+
+                        <dt class="col-sm-4 fw-bold">Precio por Día</dt>
+                        <dd class="col-sm-8">₡@Model.PrecioPorDia</dd>
+
+                    </dl>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn-back">Volver</a>
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-form-submit">Editar</a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>

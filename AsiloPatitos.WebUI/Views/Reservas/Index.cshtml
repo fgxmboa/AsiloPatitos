@@ -4,49 +4,71 @@
     ViewData["Title"] = "Reservas";
 }
 
-<h2>Reservas</h2>
+<section class="container py-5">
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
-}
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
-}
+    <div class="row justify-content-center">
+        <div class="col-md-10">
 
-<a asp-action="Create" class="btn btn-primary mb-3">Nueva Reserva</a>
+            <div class="card-page">
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Paciente</th>
-            <th>Habitación</th>
-            <th>Ingreso</th>
-            <th>Salida</th>
-            <th>Total</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="page-title">Listado de Reservas</h2>
 
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Paciente?.Nombre</td>
-                <td>@item.Habitacion?.Numero</td>
-                <td>@item.FechaIngreso.ToShortDateString()</td>
-                <td>@item.FechaSalida.ToShortDateString()</td>
-                <td>@item.Total</td>
-                <td>@item.Estado</td>
+                    <a asp-action="Create" class="btn-create">
+                        + Nueva Reserva
+                    </a>
+                </div>
 
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Ver</a>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Editar</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Eliminar</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+                }
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+                }
+
+                <div class="table-responsive">
+                    <table class="table table-custom align-middle">
+
+                        <thead>
+                            <tr>
+                                <th>Paciente</th>
+                                <th>Habitación</th>
+                                <th>Ingreso</th>
+                                <th>Salida</th>
+                                <th>Total</th>
+                                <th>Estado</th>
+                                <th class="text-end">Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Paciente?.Nombre</td>
+                                    <td>@item.Habitacion?.Numero</td>
+                                    <td>@item.FechaIngreso.ToShortDateString()</td>
+                                    <td>@item.FechaSalida.ToShortDateString()</td>
+                                    <td>@item.Total</td>
+                                    <td>@item.Estado</td>
+
+                                    <td class="text-end">
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn-action details">Ver</a>
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn-action edit">Editar</a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn-action delete">Eliminar</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</section>

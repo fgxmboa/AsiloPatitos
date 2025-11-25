@@ -3,64 +3,84 @@
     ViewData["Title"] = "Agregar Paciente";
 }
 
-<h2>Agregar Paciente</h2>
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
-}
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
-}
+            <div class="card-form">
+                <h2 class="text-center form-title mb-4">Agregar Paciente</h2>
 
-<form asp-action="Create">
-    <div class="mb-3">
-        <label asp-for="Nombre" class="form-label"></label>
-        <input asp-for="Nombre" class="form-control" />
-        <span asp-validation-for="Nombre" class="text-danger"></span>
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success text-center">@TempData["SuccessMessage"]</div>
+                }
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger text-center">@TempData["ErrorMessage"]</div>
+                }
+
+                <form asp-action="Create">
+
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label form-label-custom"></label>
+                        <input asp-for="Nombre" class="form-control form-input" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Cedula" class="form-label form-label-custom"></label>
+                        <input asp-for="Cedula" class="form-control form-input" />
+                        <span asp-validation-for="Cedula" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="FechaIngreso" class="form-label form-label-custom"></label>
+                        <input asp-for="FechaIngreso" type="date" class="form-control form-input" />
+                        <span asp-validation-for="FechaIngreso" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="NivelAsistencia" class="form-label form-label-custom"></label>
+                        <input asp-for="NivelAsistencia" class="form-control form-input" />
+                        <span asp-validation-for="NivelAsistencia" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="CuidadosEspeciales" class="form-label form-label-custom"></label>
+                        <textarea asp-for="CuidadosEspeciales" class="form-control form-input"></textarea>
+                        <span asp-validation-for="CuidadosEspeciales" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="PaqueteAdicional" class="form-label form-label-custom"></label>
+                        <input asp-for="PaqueteAdicional" class="form-control form-input" />
+                        <span asp-validation-for="PaqueteAdicional" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="HabitacionId" class="form-label form-label-custom"></label>
+                        <select asp-for="HabitacionId" class="form-control form-input" asp-items="ViewBag.HabitacionId">
+                            <option value="">Seleccione una habitación</option>
+                        </select>
+                    </div>
+
+                    <!-- BOTÓN GUARDAR -->
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn-form-submit">Guardar Paciente</button>
+                    </div>
+
+                </form>
+
+                <!-- BOTÓN VOLVER -->
+                <div class="text-center mt-4">
+                    <a asp-action="Index" class="btn-back">← Volver a la lista de pacientes</a>
+                </div>
+
+            </div>
+
+        </div>
     </div>
-
-    <div class="mb-3">
-        <label asp-for="Cedula" class="form-label"></label>
-        <input asp-for="Cedula" class="form-control" />
-        <span asp-validation-for="Cedula" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="FechaIngreso" class="form-label"></label>
-        <input asp-for="FechaIngreso" type="date" class="form-control" />
-        <span asp-validation-for="FechaIngreso" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="NivelAsistencia" class="form-label"></label>
-        <input asp-for="NivelAsistencia" class="form-control" />
-        <span asp-validation-for="NivelAsistencia" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="CuidadosEspeciales" class="form-label"></label>
-        <textarea asp-for="CuidadosEspeciales" class="form-control"></textarea>
-        <span asp-validation-for="CuidadosEspeciales" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="PaqueteAdicional" class="form-label"></label>
-        <input asp-for="PaqueteAdicional" class="form-control" />
-        <span asp-validation-for="PaqueteAdicional" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="HabitacionId" class="form-label"></label>
-        <select asp-for="HabitacionId" class="form-control" asp-items="ViewBag.HabitacionId">
-            <option value="">Seleccione una habitación</option>
-        </select>
-    </div>
-
-    <button type="submit" class="btn btn-success">Guardar</button>
-    <a asp-action="Index" class="btn btn-secondary">Volver</a>
-</form>
+</section>
 
 @section Scripts {
     @{

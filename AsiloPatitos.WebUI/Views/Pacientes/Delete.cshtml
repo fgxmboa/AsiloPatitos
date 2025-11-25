@@ -1,27 +1,45 @@
 ﻿@model AsiloPatitos.Domain.Entities.Paciente
+
 @{
     ViewData["Title"] = "Eliminar Paciente";
 }
 
-<h2>Eliminar Paciente</h2>
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
 
-<h4>¿Está seguro que desea eliminar este paciente?</h4>
+            <div class="card-form">
+                <h2 class="form-title mb-4 text-center">Eliminar Paciente</h2>
 
-<div class="card p-3">
-    <dl class="row">
-        <dt class="col-sm-3">Nombre</dt>
-        <dd class="col-sm-9">@Model.Nombre</dd>
+                <p class="text-danger fw-bold mb-4 text-center">
+                    ¿Está seguro que desea eliminar este paciente?
+                </p>
 
-        <dt class="col-sm-3">Cédula</dt>
-        <dd class="col-sm-9">@Model.Cedula</dd>
+                <dl class="row mb-4">
+                    <dt class="col-sm-4 fw-bold">Nombre</dt>
+                    <dd class="col-sm-8">@Model.Nombre</dd>
 
-        <dt class="col-sm-3">Nivel de Asistencia</dt>
-        <dd class="col-sm-9">@Model.NivelAsistencia</dd>
-    </dl>
-</div>
+                    <dt class="col-sm-4 fw-bold">Cédula</dt>
+                    <dd class="col-sm-8">@Model.Cedula</dd>
 
-<form asp-action="Delete" method="post">
-    <input type="hidden" asp-for="Id" />
-    <button type="submit" class="btn btn-danger">Eliminar</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-</form>
+                    <dt class="col-sm-4 fw-bold">Nivel de Asistencia</dt>
+                    <dd class="col-sm-8">@Model.NivelAsistencia</dd>
+                </dl>
+
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn-cancel">Cancelar</a>
+                        <button type="submit" class="btn-form-submit" style="background:#C0392B !important;">
+                            Eliminar
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</section>

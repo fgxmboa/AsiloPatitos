@@ -32,18 +32,19 @@ body {
 }
 
 .brand-logo {
-    width: 42px;
+    width: 100px;
 }
 
 .brand-title {
     font-weight: 700;
-    color: var(--negro);
+    color: var(--marron);
 }
 
 .nav-link {
-    color: var(--negro) !important;
-    font-weight: 600;
+    color: var(--marron) !important;
+    font-weight: 700;
 }
+
 
 /* BOTÓN INICIAR SESIÓN */
 .btn-nav-login {
@@ -340,7 +341,7 @@ body {
     text-align: center;
 }
 /* ============================
-   DETAILS (DETALLES)
+   DETAILS
 ============================ */
 .card-details {
     background: #FFFFFF;
@@ -375,7 +376,7 @@ body {
 }
 
 /* ============================
-   DELETE (ELIMINAR)
+   DELETE 
 ============================ */
 .card-delete {
     background: #FFFFFF;
@@ -441,9 +442,6 @@ body {
         background: #ffc7c2;
     }
 
-/* ================================================
-   QUITAR SUBRAYADO A TODOS LOS BOTONES
-================================================ */
 a.btn,
 .btn,
 .btn-action,

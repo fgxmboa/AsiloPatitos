@@ -4,31 +4,54 @@
     ViewData["Title"] = "Eliminar Reserva";
 }
 
-<h2>Eliminar Reserva</h2>
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
 
-<h4>¿Está seguro que desea eliminar esta reserva?</h4>
+            <div class="card-form">
 
-<div>
-    <dl class="row">
-        <dt class="col-sm-3">Paciente</dt>
-        <dd class="col-sm-9">@Model.Paciente?.Nombre</dd>
+                <h2 class="form-title mb-4 text-center">Eliminar Reserva</h2>
 
-        <dt class="col-sm-3">Habitación</dt>
-        <dd class="col-sm-9">@Model.Habitacion?.Numero</dd>
+                <p class="text-danger fw-bold mb-4 text-center">
+                    ¿Está seguro que desea eliminar esta reserva?
+                </p>
 
-        <dt class="col-sm-3">Fecha ingreso</dt>
-        <dd class="col-sm-9">@Model.FechaIngreso.ToShortDateString()</dd>
+                <dl class="row mb-4">
 
-        <dt class="col-sm-3">Fecha salida</dt>
-        <dd class="col-sm-9">@Model.FechaSalida.ToShortDateString()</dd>
+                    <dt class="col-sm-4 fw-bold">Paciente</dt>
+                    <dd class="col-sm-8">@Model.Paciente?.Nombre</dd>
 
-        <dt class="col-sm-3">Total</dt>
-        <dd class="col-sm-9">@Model.Total</dd>
-    </dl>
-</div>
+                    <dt class="col-sm-4 fw-bold">Habitación</dt>
+                    <dd class="col-sm-8">@Model.Habitacion?.Numero</dd>
 
-<form asp-action="Delete">
-    <input type="hidden" asp-for="Id" />
-    <button type="submit" class="btn btn-danger">Eliminar</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-</form>
+                    <dt class="col-sm-4 fw-bold">Fecha Ingreso</dt>
+                    <dd class="col-sm-8">@Model.FechaIngreso.ToShortDateString()</dd>
+
+                    <dt class="col-sm-4 fw-bold">Fecha Salida</dt>
+                    <dd class="col-sm-8">@Model.FechaSalida.ToShortDateString()</dd>
+
+                    <dt class="col-sm-4 fw-bold">Total</dt>
+                    <dd class="col-sm-8">@Model.Total</dd>
+
+                </dl>
+
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="d-flex justify-content-between">
+                        <a asp-action="Index" class="btn-cancel">Cancelar</a>
+
+                        <button type="submit"
+                                class="btn-form-submit"
+                                style="background:#C0392B !important;">
+                            Eliminar
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</section>

@@ -4,54 +4,73 @@
     ViewData["Title"] = "Registro de Usuario";
 }
 
-<h2 class="mb-4">Crear Cuenta</h2>
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
 
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
-}
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
-}
+            <div class="card-form">
 
-<form asp-action="Register" method="post">
-    <div class="mb-3">
-        <label asp-for="Nombre" class="form-label"></label>
-        <input asp-for="Nombre" class="form-control" />
-        <span asp-validation-for="Nombre" class="text-danger"></span>
+                <h2 class="form-title text-center mb-4">Crear Cuenta</h2>
+
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+                }
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+                }
+
+                <form asp-action="Register" method="post">
+
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label form-label-custom"></label>
+                        <input asp-for="Nombre" class="form-control form-input" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Apellido" class="form-label form-label-custom"></label>
+                        <input asp-for="Apellido" class="form-control form-input" />
+                        <span asp-validation-for="Apellido" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Correo" class="form-label form-label-custom"></label>
+                        <input asp-for="Correo" class="form-control form-input" />
+                        <span asp-validation-for="Correo" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Contrasena" class="form-label form-label-custom"></label>
+                        <input asp-for="Contrasena" class="form-control form-input" type="password" />
+                        <span asp-validation-for="Contrasena" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Rol" class="form-label form-label-custom"></label>
+                        <select asp-for="Rol" class="form-control form-input">
+                            <option value="Empleado">Empleado</option>
+                            <option value="Administrador">Administrador</option>
+                        </select>
+                        <span asp-validation-for="Rol" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn-form-submit">Registrarse</button>
+                    </div>
+
+                </form>
+
+                <div class="text-center mt-4">
+                    <a asp-action="Login" class="btn-back">Iniciar Sesión</a>
+                </div>
+
+            </div>
+
+        </div>
     </div>
-
-    <div class="mb-3">
-        <label asp-for="Apellido" class="form-label"></label>
-        <input asp-for="Apellido" class="form-control" />
-        <span asp-validation-for="Apellido" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Correo" class="form-label"></label>
-        <input asp-for="Correo" class="form-control" />
-        <span asp-validation-for="Correo" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Contrasena" class="form-label"></label>
-        <input asp-for="Contrasena" class="form-control" type="password" />
-        <span asp-validation-for="Contrasena" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Rol" class="form-label"></label>
-        <select asp-for="Rol" class="form-control">
-            <option value="Empleado">Empleado</option>
-            <option value="Administrador">Administrador</option>
-        </select>
-        <span asp-validation-for="Rol" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">Registrarse</button>
-    <a asp-action="Login" class="btn btn-secondary ms-2">Iniciar Sesión</a>
-</form>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
