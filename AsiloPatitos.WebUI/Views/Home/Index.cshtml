@@ -1,8 +1,193 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- HERO -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+
+            <div class="col-lg-7">
+                <h1 class="hero-title">Un hogar lleno de cariño y cuidados profesionales</h1>
+                <p class="hero-sub">Brindamos bienestar, afecto y atención integral para adultos mayores.</p>
+
+                <div class="mt-4 d-flex gap-3">
+
+                    <!-- BOTÓN REAL -->
+                    <a href="/Reservaciones/Crear" class="btn hero-btn-primary">
+                        Reservar una habitación
+                    </a>
+
+                    <!-- BOTÓN REAL SECUNDARIO -->
+                    <a href="#quienes" class="btn hero-btn-secondary">
+                        Conózcanos
+                    </a>
+
+                </div>
+            </div>
+
+            <div class="col-lg-5 text-center">
+                <img src="/img/logo2.png" class="hero-logo" alt="Pato hero" />
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- QUIÉNES SOMOS -->
+<section id="quienes" class="py-5">
+    <div class="container">
+
+        <h2 class="section-title text-center mb-2">¿Quiénes somos?</h2>
+        <p class="text-center section-sub mb-4">Cuidamos con amor y profesionalismo</p>
+
+        <div class="row g-4">
+
+            <div class="col-md-4">
+                <div class="card-custom">
+                    <div class="icon-large">➕</div>
+                    <h5>Atención médica</h5>
+                    <p>Equipo profesional especializado.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card-custom">
+                    <div class="icon-large">❤️‍🩹</div>
+                    <h5>Actividades recreativas</h5>
+                    <p>Estimulación física y cognitiva.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card-custom">
+                    <div class="icon-large">🍽️</div>
+                    <h5>Alimentación y cuidado diario</h5>
+                    <p>Supervisión 24/7.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- SERVICIOS -->
+<section id="servicios" class="py-5">
+    <div class="container">
+        <h2 class="section-title text-center">Servicios</h2>
+
+        <div class="row g-4 mt-3">
+
+            <div class="col-md-3"><div class="card-custom"><h6>Hogar permanente</h6><p>Estancia segura y confortable</p></div></div>
+            <div class="col-md-3"><div class="card-custom"><h6>Estancias diurnas</h6><p>Supervisión y cuidados diarios</p></div></div>
+            <div class="col-md-3"><div class="card-custom"><h6>Rehabilitación suave</h6><p>Ejercicios guiados y fisioterapia leve</p></div></div>
+            <div class="col-md-3"><div class="card-custom"><h6>Acompañamiento emocional</h6><p>Talleres cognitivos y apoyo psicológico</p></div></div>
+
+        </div>
+    </div>
+</section>
+
+<!-- HABITACIONES -->
+<section id="habitaciones" class="py-5">
+    <div class="container">
+        <h2 class="section-title text-center">Habitaciones</h2>
+        <p class="text-center section-sub">Seleccione y reserve la habitación que prefiera</p>
+
+        <div class="row mt-4 g-4">
+
+            <div class="col-md-3">
+                <div class="card-room">
+                    <img src="/img/hab1.jpg">
+                    <div class="card-room-body">
+                        <h5>Habitación Compartida</h5>
+                        <p>Ambiente compartido, cómodo y seguro.</p>
+                        <a class="btn btn-outline-primary w-100" href="/Reservaciones/Crear?tipo=compartida">Reservar</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card-room">
+                    <img src="/img/hab2.jpg">
+                    <div class="card-room-body">
+                        <h5>Habitación Individual</h5>
+                        <p>Privada, tranquila y con seguridad 24/7.</p>
+                        <a class="btn btn-outline-primary w-100" href="/Reservaciones/Crear?tipo=individual">Reservar</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card-room">
+                    <img src="/img/hab3.jpg">
+                    <div class="card-room-body">
+                        <h5>Individual Matrimonial</h5>
+                        <p>Cama matrimonial y mayor espacio personal.</p>
+                        <a class="btn btn-outline-primary w-100" href="/Reservaciones/Crear?tipo=matrimonial">Reservar</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card-room">
+                    <img src="/img/hab4.jpg">
+                    <div class="card-room-body">
+                        <h5>Cuidados Especiales</h5>
+                        <p>Adaptada para residentes con necesidades específicas.</p>
+                        <a class="btn btn-outline-primary w-100" href="/Reservaciones/Crear?tipo=cuidados">Reservar</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- RESEÑAS -->
+<section id="reseñas" class="py-5">
+    <div class="container">
+
+        <h2 class="section-title text-center">Reseñas</h2>
+        <p class="section-sub text-center">Lo que dicen las familias</p>
+
+        <div class="row mt-4 g-4">
+
+            <div class="col-md-4">
+                <div class="card-review">
+                    <div class="review-avatar">M</div>
+                    <div>
+                        <h6>María G.</h6>
+                        <p class="small text-muted">"Excelente atención, mi madre se siente en casa."</p>
+                        <div class="stars">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card-review">
+                    <div class="review-avatar">J</div>
+                    <div>
+                        <h6>José R.</h6>
+                        <p class="small text-muted">"Profesionales y muy cariñosos."</p>
+                        <div class="stars">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card-review">
+                    <div class="review-avatar">L</div>
+                    <div>
+                        <h6>Laura F.</h6>
+                        <p class="small text-muted">"Ambiente seguro y familiar."</p>
+                        <div class="stars">★★★★★</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>

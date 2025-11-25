@@ -1,22 +1,201 @@
-html {
-  font-size: 14px;
+/* ============================
+   COLORES
+============================ */
+:root {
+    --negro: #000;
+    --amarillo: #FFED54;
+    --blanco: #FFF;
+    --crema-hero: #FFF9C5;
+    --celeste-intenso: #56E1EA;
+    --marron: #8F662D;
+    --gris-borde: #e3e3e3;
+    --sombra: 0 6px 14px rgba(0,0,0,0.08);
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
+/* ============================
+   GLOBAL
+============================ */
 body {
-  margin-bottom: 60px;
+    background: #ffffff !important;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+}
+
+/* ============================
+   NAVBAR
+============================ */
+.site-navbar {
+    background: var(--celeste-intenso);
+    padding: .7rem 1.2rem;
+}
+
+.brand-logo {
+    width: 42px;
+}
+
+.brand-title {
+    font-weight: 700;
+    color: white;
+}
+
+.nav-link {
+    color: white !important;
+    font-weight: 600;
+}
+
+/* BOTÓN LOGIN */
+.btn-nav-login {
+    background: #ffffff;
+    color: var(--celeste-intenso);
+    font-weight: 700;
+    padding: 6px 18px;
+    border-radius: 12px;
+    box-shadow: var(--sombra);
+}
+
+    .btn-nav-login:hover {
+        background: #eefeFF;
+        color: #148fb5;
+    }
+
+/* ============================
+   HERO
+============================ */
+.hero-section {
+    background-color: var(--crema-hero) !important;
+    padding: 5rem 1rem;
+}
+
+.hero-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--marron);
+}
+
+.hero-sub {
+    font-size: 1.1rem;
+    color: #444;
+    max-width: 450px;
+}
+
+.hero-logo {
+    width: 310px;
+}
+
+/* BOTONES HERO */
+.hero-btn-primary {
+    background: var(--celeste-intenso);
+    color: white;
+    padding: 14px 28px;
+    font-weight: 700;
+    border-radius: 14px;
+    box-shadow: var(--sombra);
+}
+
+    .hero-btn-primary:hover {
+        filter: brightness(1.1);
+    }
+
+.hero-btn-secondary {
+    background: white;
+    border: 2px solid var(--celeste-intenso);
+    color: var(--celeste-intenso);
+    padding: 14px 28px;
+    font-weight: 700;
+    border-radius: 14px;
+    box-shadow: var(--sombra);
+}
+
+    .hero-btn-secondary:hover {
+        background: #eefaff;
+    }
+
+/* ============================
+   TARJETAS PREMIUM
+============================ */
+.card-custom {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: var(--sombra);
+    height: 100%;
+}
+
+.icon-large {
+    font-size: 40px;
+    margin-bottom: 8px;
+}
+
+.card-custom h5, .card-custom h6 {
+    font-weight: 700;
+    color: var(--marron);
+}
+
+/* ============================
+   HABITACIONES
+============================ */
+.card-room {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: var(--sombra);
+    display: flex;
+    flex-direction: column;
+}
+
+    .card-room img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+
+.card-room-body {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+    .card-room-body h5 {
+        font-weight: 700;
+        color: var(--marron);
+    }
+
+/* ============================
+   RESEÑAS
+============================ */
+.card-review {
+    background: white;
+    border: 2px solid var(--gris-borde);
+    border-radius: 16px;
+    padding: 1.2rem;
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    box-shadow: var(--sombra);
+}
+
+.review-avatar {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: #FFF3A5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+}
+
+.stars {
+    color: var(--amarillo);
+}
+
+/* ============================
+   FOOTER
+============================ */
+.site-footer {
+    background: var(--celeste-intenso);
+    color: white;
+    font-weight: 700;
 }
