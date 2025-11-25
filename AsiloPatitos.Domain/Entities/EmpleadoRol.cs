@@ -13,13 +13,15 @@ namespace AsiloPatitos.Domain.Entities
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Debe seleccionar un empleado.")]
+        [Range(1, int.MaxValue, ErrorMessage = "El ID del empleado no es válido.")]
         public int EmpleadoId { get; set; }
 
         [ForeignKey(nameof(EmpleadoId))]
         public Empleado Empleado { get; set; } = null!;
 
-        [Required]
+        [Required(ErrorMessage = "Debe seleccionar un rol.")]
+        [Range(1, int.MaxValue, ErrorMessage = "El ID del rol no es válido.")]
         public int RolId { get; set; }
 
         [ForeignKey(nameof(RolId))]
