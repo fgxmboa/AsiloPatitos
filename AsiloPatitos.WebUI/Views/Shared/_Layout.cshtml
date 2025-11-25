@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿<!-- Views/Shared/_Layout.cshtml -->
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
@@ -14,7 +15,8 @@
 <body>
 
     <header>
-        <nav class="navbar navbar-expand-lg site-navbar">
+        <!-- IMPORTANTE: navbar-light restaurado para que funcione bien el navbar -->
+        <nav class="navbar navbar-expand-lg navbar-light site-navbar">
             <div class="container">
 
                 <a class="navbar-brand d-flex align-items-center gap-2" href="/">
@@ -22,22 +24,24 @@
                     <span class="brand-title">Patitos del Retiro</span>
                 </a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+                        aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="mainNav">
                     <ul class="navbar-nav ms-auto align-items-lg-center">
+
                         <li class="nav-item"><a class="nav-link" href="/Empleados">Empleados</a></li>
                         <li class="nav-item"><a class="nav-link" href="/Pacientes">Pacientes</a></li>
                         <li class="nav-item"><a class="nav-link" href="/Reservaciones">Reservaciones</a></li>
                         <li class="nav-item"><a class="nav-link" href="/Habitaciones">Habitaciones</a></li>
                         <li class="nav-item"><a class="nav-link" href="/Reporteria">Reportería</a></li>
 
-                        <!-- BOTÓN REAL -->
                         <li class="nav-item ms-3">
                             <a class="btn btn-nav-login" href="/Account/Login">Iniciar sesión</a>
                         </li>
+
                     </ul>
                 </div>
 

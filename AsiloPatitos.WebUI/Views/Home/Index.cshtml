@@ -1,4 +1,5 @@
-﻿@{
+﻿<!-- Views/Home/Index.cshtml -->
+@{
     ViewData["Title"] = "Inicio";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -12,14 +13,12 @@
                 <h1 class="hero-title">Un hogar lleno de cariño y cuidados profesionales</h1>
                 <p class="hero-sub">Brindamos bienestar, afecto y atención integral para adultos mayores.</p>
 
-                <div class="mt-4 d-flex gap-3">
+                <div class="mt-4 d-flex gap-3 flex-wrap">
 
-                    <!-- BOTÓN REAL -->
                     <a href="/Reservaciones/Crear" class="btn hero-btn-primary">
                         Reservar una habitación
                     </a>
 
-                    <!-- BOTÓN REAL SECUNDARIO -->
                     <a href="#quienes" class="btn hero-btn-secondary">
                         Conózcanos
                     </a>
@@ -79,12 +78,33 @@
         <h2 class="section-title text-center">Servicios</h2>
 
         <div class="row g-4 mt-3">
+            <div class="col-md-3">
+                <div class="card-custom">
+                    <h6>Hogar permanente</h6>
+                    <p>Estancia segura y confortable</p>
+                </div>
+            </div>
 
-            <div class="col-md-3"><div class="card-custom"><h6>Hogar permanente</h6><p>Estancia segura y confortable</p></div></div>
-            <div class="col-md-3"><div class="card-custom"><h6>Estancias diurnas</h6><p>Supervisión y cuidados diarios</p></div></div>
-            <div class="col-md-3"><div class="card-custom"><h6>Rehabilitación suave</h6><p>Ejercicios guiados y fisioterapia leve</p></div></div>
-            <div class="col-md-3"><div class="card-custom"><h6>Acompañamiento emocional</h6><p>Talleres cognitivos y apoyo psicológico</p></div></div>
+            <div class="col-md-3">
+                <div class="card-custom">
+                    <h6>Estancias diurnas</h6>
+                    <p>Supervisión y cuidados diarios</p>
+                </div>
+            </div>
 
+            <div class="col-md-3">
+                <div class="card-custom">
+                    <h6>Rehabilitación suave</h6>
+                    <p>Ejercicios guiados y fisioterapia leve</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="card-custom">
+                    <h6>Acompañamiento emocional</h6>
+                    <p>Talleres cognitivos y apoyo psicológico</p>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -99,44 +119,44 @@
 
             <div class="col-md-3">
                 <div class="card-room">
-                    <img src="/img/hab1.jpg">
+                    <img src="/img/hab1.jpg" alt="Habitación compartida">
                     <div class="card-room-body">
                         <h5>Habitación Compartida</h5>
                         <p>Ambiente compartido, cómodo y seguro.</p>
-                        <a class="btn btn-outline-primary w-100" href="/Reservaciones/Crear?tipo=compartida">Reservar</a>
+                        <a class="btn btn-room w-100" href="/Reservaciones/Crear?tipo=compartida">Reservar</a>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-3">
                 <div class="card-room">
-                    <img src="/img/hab2.jpg">
+                    <img src="/img/hab2.jpg" alt="Habitación individual">
                     <div class="card-room-body">
                         <h5>Habitación Individual</h5>
                         <p>Privada, tranquila y con seguridad 24/7.</p>
-                        <a class="btn btn-outline-primary w-100" href="/Reservaciones/Crear?tipo=individual">Reservar</a>
+                        <a class="btn btn-room w-100" href="/Reservaciones/Crear?tipo=individual">Reservar</a>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-3">
                 <div class="card-room">
-                    <img src="/img/hab3.jpg">
+                    <img src="/img/hab3.jpg" alt="Habitación matrimonial">
                     <div class="card-room-body">
                         <h5>Individual Matrimonial</h5>
                         <p>Cama matrimonial y mayor espacio personal.</p>
-                        <a class="btn btn-outline-primary w-100" href="/Reservaciones/Crear?tipo=matrimonial">Reservar</a>
+                        <a class="btn btn-room w-100" href="/Reservaciones/Crear?tipo=matrimonial">Reservar</a>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-3">
                 <div class="card-room">
-                    <img src="/img/hab4.jpg">
+                    <img src="/img/hab4.jpg" alt="Habitación cuidados especiales">
                     <div class="card-room-body">
                         <h5>Cuidados Especiales</h5>
                         <p>Adaptada para residentes con necesidades específicas.</p>
-                        <a class="btn btn-outline-primary w-100" href="/Reservaciones/Crear?tipo=cuidados">Reservar</a>
+                        <a class="btn btn-room w-100" href="/Reservaciones/Crear?tipo=cuidados">Reservar</a>
                     </div>
                 </div>
             </div>

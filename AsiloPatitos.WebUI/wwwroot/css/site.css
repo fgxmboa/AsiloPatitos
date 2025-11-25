@@ -1,10 +1,13 @@
+/* wwwroot/css/site.css */
+
 /* ============================
    COLORES
 ============================ */
 :root {
-    --negro: #000;
+    --negro: #000000;
     --amarillo: #FFED54;
-    --blanco: #FFF;
+    --amarillo-claro: #FFF9A8;
+    --blanco: #FFFFFF;
     --crema-hero: #FFF9C5;
     --celeste-intenso: #56E1EA;
     --marron: #8F662D;
@@ -16,46 +19,49 @@
    GLOBAL
 ============================ */
 body {
-    background: #ffffff !important;
-    font-family: 'Poppins', sans-serif;
-    color: #333;
+    background-color: #FFFFFF !important;
+    font-family: "Poppins", sans-serif;
+    color: #333333;
+    margin: 0;
 }
 
 /* ============================
    NAVBAR
 ============================ */
 .site-navbar {
-    background: var(--celeste-intenso);
-    padding: .7rem 1.2rem;
+    background-color: var(--celeste-intenso);
+    padding: 0.7rem 1.2rem;
 }
 
 .brand-logo {
     width: 42px;
+    height: auto;
 }
 
 .brand-title {
     font-weight: 700;
-    color: white;
+    color: var(--negro);
 }
 
 .nav-link {
-    color: white !important;
+    color: var(--negro) !important;
     font-weight: 600;
 }
 
-/* BOTÓN LOGIN */
+/* Botón "Iniciar sesión" en navbar */
 .btn-nav-login {
-    background: #ffffff;
+    background-color: #FFFFFF;
     color: var(--celeste-intenso);
     font-weight: 700;
     padding: 6px 18px;
     border-radius: 12px;
+    border: 2px solid #FFFFFF;
     box-shadow: var(--sombra);
 }
 
     .btn-nav-login:hover {
-        background: #eefeFF;
-        color: #148fb5;
+        background-color: #E8FBFF;
+        color: #1588a7;
     }
 
 /* ============================
@@ -74,22 +80,24 @@ body {
 
 .hero-sub {
     font-size: 1.1rem;
-    color: #444;
-    max-width: 450px;
+    color: #444444;
+    max-width: 470px;
 }
 
 .hero-logo {
     width: 310px;
+    height: auto;
 }
 
 /* BOTONES HERO */
 .hero-btn-primary {
-    background: var(--celeste-intenso);
-    color: white;
+    background-color: var(--celeste-intenso);
+    color: #FFFFFF;
     padding: 14px 28px;
     font-weight: 700;
     border-radius: 14px;
     box-shadow: var(--sombra);
+    border: none;
 }
 
     .hero-btn-primary:hover {
@@ -97,7 +105,7 @@ body {
     }
 
 .hero-btn-secondary {
-    background: white;
+    background-color: #FFFFFF;
     border: 2px solid var(--celeste-intenso);
     color: var(--celeste-intenso);
     padding: 14px 28px;
@@ -107,14 +115,24 @@ body {
 }
 
     .hero-btn-secondary:hover {
-        background: #eefaff;
+        background-color: #EEF7FF;
     }
 
 /* ============================
-   TARJETAS PREMIUM
+   SECCIÓN: QUIÉNES SOMOS
 ============================ */
+.section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--marron);
+}
+
+.section-sub {
+    color: #555555;
+}
+
 .card-custom {
-    background: white;
+    background-color: #FFFFFF;
     border-radius: 16px;
     padding: 25px;
     text-align: center;
@@ -124,24 +142,37 @@ body {
 
 .icon-large {
     font-size: 40px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
-.card-custom h5, .card-custom h6 {
+.card-custom h5,
+.card-custom h6 {
     font-weight: 700;
     color: var(--marron);
 }
 
 /* ============================
+   SERVICIOS
+============================ */
+#servicios {
+    background-color: #FFFFFF !important;
+}
+
+/* ============================
    HABITACIONES
 ============================ */
+#habitaciones {
+    background-color: #FFFFFF !important;
+}
+
 .card-room {
-    background: white;
+    background-color: #FFFFFF;
     border-radius: 16px;
     overflow: hidden;
     box-shadow: var(--sombra);
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
     .card-room img {
@@ -154,7 +185,7 @@ body {
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    height: 100%;
 }
 
     .card-room-body h5 {
@@ -162,11 +193,38 @@ body {
         color: var(--marron);
     }
 
+    .card-room-body p {
+        color: #555555;
+        flex-grow: 1;
+    }
+
+/* BOTÓN DE HABITACIONES (RESERVAR) */
+.btn-room {
+    margin-top: auto;
+    background-color: var(--amarillo) !important;
+    border: 2px solid #E0CF3D !important;
+    color: var(--marron) !important;
+    font-weight: 700;
+    border-radius: 10px;
+    padding: 10px;
+    transition: 0.2s ease;
+}
+
+    .btn-room:hover {
+        background-color: var(--amarillo-claro) !important;
+        border-color: #C9B935 !important;
+        transform: scale(1.03);
+    }
+
 /* ============================
    RESEÑAS
 ============================ */
+#reseñas {
+    background-color: #FFFFFF !important;
+}
+
 .card-review {
-    background: white;
+    background-color: #FFFFFF;
     border: 2px solid var(--gris-borde);
     border-radius: 16px;
     padding: 1.2rem;
@@ -180,7 +238,7 @@ body {
     width: 55px;
     height: 55px;
     border-radius: 50%;
-    background: #FFF3A5;
+    background-color: #FFF3A5;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -195,7 +253,8 @@ body {
    FOOTER
 ============================ */
 .site-footer {
-    background: var(--celeste-intenso);
-    color: white;
+    background-color: var(--celeste-intenso);
+    color: #FFFFFF;
     font-weight: 700;
+    text-align: center;
 }
