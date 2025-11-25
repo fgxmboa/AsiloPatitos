@@ -45,6 +45,10 @@ namespace AsiloPatitos.Infrastructure
             modelBuilder.Entity<Habitacion>()
                 .Property(h => h.PrecioPorDia)
                 .HasPrecision(10, 2);
+
+            modelBuilder.Entity<EmpleadoRol>()
+                .HasIndex(er => new { er.EmpleadoId, er.RolId })
+                .IsUnique();
         }
     }
 }

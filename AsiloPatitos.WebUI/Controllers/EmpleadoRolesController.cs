@@ -22,8 +22,10 @@ namespace AsiloPatitos.WebUI.Controllers
         // GET: EmpleadoRoles
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.EmpleadoRoles.Include(e => e.Empleado).Include(e => e.Rol);
-            return View(await applicationDbContext.ToListAsync());
+            var roles = _context.EmpleadoRoles
+                .Include(e => e.Empleado)
+                .Include(e => e.Rol);
+            return View(await roles.ToListAsync());
         }
 
         // GET: EmpleadoRoles/Details/5
@@ -49,27 +51,47 @@ namespace AsiloPatitos.WebUI.Controllers
         // GET: EmpleadoRoles/Create
         public IActionResult Create()
         {
-            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Cedula");
+            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Nombre");
             ViewData["RolId"] = new SelectList(_context.Roles, "Id", "Nombre");
             return View();
         }
 
         // POST: EmpleadoRoles/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EmpleadoId,RolId")] EmpleadoRol empleadoRol)
+        public async Task<IActionResult> Create(EmpleadoRol empleadoRol)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                TempData["ErrorMessage"] = "Por favor, complete todos los campos requeridos.";
+                ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Nombre", empleadoRol.EmpleadoId);
+                ViewData["RolId"] = new SelectList(_context.Roles, "Id", "Nombre", empleadoRol.RolId);
+                return View(empleadoRol);
+            }
+
+            try
+            {
+                // Validación: evitar duplicados
+                bool existe = await _context.EmpleadoRoles
+                    .AnyAsync(er => er.EmpleadoId == empleadoRol.EmpleadoId && er.RolId == empleadoRol.RolId);
+
+                if (existe)
+                {
+                    TempData["ErrorMessage"] = "Este empleado ya tiene asignado este rol.";
+                    return RedirectToAction(nameof(Index));
+                }
+
                 _context.Add(empleadoRol);
                 await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Rol asignado exitosamente al empleado.";
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Cedula", empleadoRol.EmpleadoId);
-            ViewData["RolId"] = new SelectList(_context.Roles, "Id", "Nombre", empleadoRol.RolId);
-            return View(empleadoRol);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Ocurrió un error al guardar los datos: " + ex.Message;
+                return View(empleadoRol);
+            }
         }
 
         // GET: EmpleadoRoles/Edit/5
@@ -131,18 +153,15 @@ namespace AsiloPatitos.WebUI.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var empleadoRol = await _context.EmpleadoRoles
                 .Include(e => e.Empleado)
                 .Include(e => e.Rol)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (empleadoRol == null)
-            {
                 return NotFound();
-            }
 
             return View(empleadoRol);
         }
@@ -153,12 +172,23 @@ namespace AsiloPatitos.WebUI.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var empleadoRol = await _context.EmpleadoRoles.FindAsync(id);
-            if (empleadoRol != null)
+            if (empleadoRol == null)
             {
-                _context.EmpleadoRoles.Remove(empleadoRol);
+                TempData["ErrorMessage"] = "El registro no existe o ya fue eliminado.";
+                return RedirectToAction(nameof(Index));
             }
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.EmpleadoRoles.Remove(empleadoRol);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Rol eliminado correctamente.";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al eliminar el registro: " + ex.Message;
+            }
+
             return RedirectToAction(nameof(Index));
         }
 
