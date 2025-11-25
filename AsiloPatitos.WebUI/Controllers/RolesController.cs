@@ -22,7 +22,8 @@ namespace AsiloPatitos.WebUI.Controllers
         // GET: Roles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Roles.ToListAsync());
+            var roles = await _context.Roles.ToListAsync();
+            return View(roles);
         }
 
         // GET: Roles/Details/5
@@ -54,30 +55,45 @@ namespace AsiloPatitos.WebUI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Descripcion")] Rol rol)
+        public async Task<IActionResult> Create(Rol rol)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                TempData["ErrorMessage"] = "Por favor, complete los campos correctamente.";
+                return View(rol);
+            }
+
+            try
+            {
+                bool existe = await _context.Roles.AnyAsync(r => r.Nombre == rol.Nombre);
+                if (existe)
+                {
+                    TempData["ErrorMessage"] = "Ya existe un rol con ese nombre.";
+                    return View(rol);
+                }
+
                 _context.Add(rol);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Rol creado exitosamente.";
                 return RedirectToAction(nameof(Index));
             }
-            return View(rol);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al crear el rol: " + ex.Message;
+                return View(rol);
+            }
         }
 
         // GET: Roles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var rol = await _context.Roles.FindAsync(id);
             if (rol == null)
-            {
                 return NotFound();
-            }
+
             return View(rol);
         }
 
@@ -86,53 +102,60 @@ namespace AsiloPatitos.WebUI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Descripcion")] Rol rol)
+        public async Task<IActionResult> Edit(int id, Rol rol)
         {
             if (id != rol.Id)
-            {
                 return NotFound();
+
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Revise los campos antes de guardar.";
+                return View(rol);
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
+                bool existeDuplicado = await _context.Roles
+                    .AnyAsync(r => r.Nombre == rol.Nombre && r.Id != rol.Id);
+
+                if (existeDuplicado)
                 {
-                    _context.Update(rol);
-                    await _context.SaveChangesAsync();
+                    TempData["ErrorMessage"] = "Ya existe otro rol con ese nombre.";
+                    return View(rol);
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!RolExists(rol.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+
+                _context.Update(rol);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Rol actualizado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
-            return View(rol);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.Roles.Any(e => e.Id == rol.Id))
+                    return NotFound();
+
+                throw;
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al actualizar: " + ex.Message;
+                return View(rol);
+            }
         }
 
         // GET: Roles/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            var rol = await _context.Roles
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var rol = await _context.Roles.FirstOrDefaultAsync(m => m.Id == id);
             if (rol == null)
-            {
                 return NotFound();
-            }
 
             return View(rol);
         }
+
 
         // POST: Roles/Delete/5
         [HttpPost, ActionName("Delete")]
@@ -140,12 +163,23 @@ namespace AsiloPatitos.WebUI.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var rol = await _context.Roles.FindAsync(id);
-            if (rol != null)
+            if (rol == null)
             {
-                _context.Roles.Remove(rol);
+                TempData["ErrorMessage"] = "El rol ya fue eliminado o no existe.";
+                return RedirectToAction(nameof(Index));
             }
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Roles.Remove(rol);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Rol eliminado correctamente.";
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al eliminar el rol: " + ex.Message;
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

@@ -49,6 +49,10 @@ namespace AsiloPatitos.Infrastructure
             modelBuilder.Entity<EmpleadoRol>()
                 .HasIndex(er => new { er.EmpleadoId, er.RolId })
                 .IsUnique();
+
+            modelBuilder.Entity<Rol>()
+                .HasIndex(r => r.Nombre)
+                .IsUnique();
         }
     }
 }
