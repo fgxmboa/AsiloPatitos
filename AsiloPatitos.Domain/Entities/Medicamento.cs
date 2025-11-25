@@ -12,19 +12,23 @@ namespace AsiloPatitos.Domain.Entities
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        [StringLength(100)]
-        public string Nombre { get; set; } = string.Empty;
+        [Required(ErrorMessage = "El nombre del medicamento es obligatorio.")]
+        [StringLength(100, ErrorMessage = "El nombre no puede tener más de 100 caracteres.")]
+        public string Nombre { get; set; } = null!;
 
-        [Required]
-        [StringLength(100)]
-        public string Dosis { get; set; } = string.Empty;
+        [Required(ErrorMessage = "Debe indicar la dosis del medicamento.")]
+        [StringLength(100, ErrorMessage = "La dosis no puede tener más de 100 caracteres.")]
+        public string Dosis { get; set; } = null!;
 
-        [Required]
-        [StringLength(100)]
-        public string Frecuencia { get; set; } = string.Empty;
+        [Required(ErrorMessage = "Debe especificar la frecuencia del medicamento.")]
+        [StringLength(100, ErrorMessage = "La frecuencia no puede tener más de 100 caracteres.")]
+        public string Frecuencia { get; set; } = null!;
 
-        [Required]
+        [Required(ErrorMessage = "Debe indicar la cantidad disponible en stock.")]
+        [Range(0, int.MaxValue, ErrorMessage = "El stock debe ser un número positivo.")]
         public int Stock { get; set; }
+
+        // Relación: un medicamento puede estar asignado a varios pacientes
+        public ICollection<PacienteMedicamento>? PacienteMedicamentos { get; set; }
     }
 }

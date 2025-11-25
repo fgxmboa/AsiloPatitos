@@ -22,23 +22,19 @@ namespace AsiloPatitos.WebUI.Controllers
         // GET: Medicamentos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Medicamentos.ToListAsync());
+            var medicamentos = await _context.Medicamentos.ToListAsync();
+            return View(medicamentos);
         }
 
         // GET: Medicamentos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            var medicamento = await _context.Medicamentos
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var medicamento = await _context.Medicamentos.FirstOrDefaultAsync(m => m.Id == id);
             if (medicamento == null)
-            {
                 return NotFound();
-            }
 
             return View(medicamento);
         }
@@ -46,6 +42,8 @@ namespace AsiloPatitos.WebUI.Controllers
         // GET: Medicamentos/Create
         public IActionResult Create()
         {
+            TempData.Remove("SuccessMessage");
+            TempData.Remove("ErrorMessage");
             return View();
         }
 
@@ -54,30 +52,47 @@ namespace AsiloPatitos.WebUI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Dosis,Frecuencia,Stock")] Medicamento medicamento)
+        public async Task<IActionResult> Create(Medicamento medicamento)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                TempData["ErrorMessage"] = "Por favor, complete todos los campos requeridos correctamente.";
+                return View(medicamento);
+            }
+
+            try
+            {
+                bool existe = await _context.Medicamentos.AnyAsync(m => m.Nombre == medicamento.Nombre);
+
+                if (existe)
+                {
+                    TempData["ErrorMessage"] = "Ya existe un medicamento con este nombre.";
+                    return View(medicamento);
+                }
+
                 _context.Add(medicamento);
                 await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Medicamento creado exitosamente.";
                 return RedirectToAction(nameof(Index));
             }
-            return View(medicamento);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Error al guardar el medicamento: " + ex.Message;
+                return View(medicamento);
+            }
         }
 
         // GET: Medicamentos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var medicamento = await _context.Medicamentos.FindAsync(id);
             if (medicamento == null)
-            {
                 return NotFound();
-            }
+
             return View(medicamento);
         }
 
@@ -86,50 +101,43 @@ namespace AsiloPatitos.WebUI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Dosis,Frecuencia,Stock")] Medicamento medicamento)
+        public async Task<IActionResult> Edit(int id, Medicamento medicamento)
         {
             if (id != medicamento.Id)
-            {
                 return NotFound();
+
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Por favor, revise los datos ingresados.";
+                return View(medicamento);
             }
 
-            if (ModelState.IsValid)
+            try
             {
-                try
-                {
-                    _context.Update(medicamento);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MedicamentoExists(medicamento.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _context.Update(medicamento);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Medicamento actualizado correctamente.";
                 return RedirectToAction(nameof(Index));
             }
-            return View(medicamento);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.Medicamentos.Any(m => m.Id == medicamento.Id))
+                    return NotFound();
+                else
+                    throw;
+            }
         }
 
         // GET: Medicamentos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            var medicamento = await _context.Medicamentos
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var medicamento = await _context.Medicamentos.FirstOrDefaultAsync(m => m.Id == id);
             if (medicamento == null)
-            {
                 return NotFound();
-            }
 
             return View(medicamento);
         }
@@ -143,9 +151,14 @@ namespace AsiloPatitos.WebUI.Controllers
             if (medicamento != null)
             {
                 _context.Medicamentos.Remove(medicamento);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Medicamento eliminado correctamente.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "No se encontró el medicamento a eliminar.";
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

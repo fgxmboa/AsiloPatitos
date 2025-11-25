@@ -1,52 +1,50 @@
 ﻿@model AsiloPatitos.Domain.Entities.Habitacion
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Crear Habitación";
 }
 
-<h1>Create</h1>
+<h2>Crear Habitación</h2>
 
-<h4>Habitacion</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Numero" class="control-label"></label>
-                <input asp-for="Numero" class="form-control" />
-                <span asp-validation-for="Numero" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Tipo" class="control-label"></label>
-                <input asp-for="Tipo" class="form-control" />
-                <span asp-validation-for="Tipo" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Disponible" /> @Html.DisplayNameFor(model => model.Disponible)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="PrecioPorDia" class="control-label"></label>
-                <input asp-for="PrecioPorDia" class="form-control" />
-                <span asp-validation-for="PrecioPorDia" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PacienteId" class="control-label"></label>
-                <select asp-for="PacienteId" class ="form-control" asp-items="ViewBag.PacienteId"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+
+<form asp-action="Create" method="post" class="needs-validation">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Numero" class="form-label"></label>
+        <input asp-for="Numero" class="form-control" />
+        <span asp-validation-for="Numero" class="text-danger"></span>
     </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div class="mb-3">
+        <label asp-for="Tipo" class="form-label"></label>
+        <input asp-for="Tipo" class="form-control" />
+        <span asp-validation-for="Tipo" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3 form-check">
+        <input asp-for="Disponible" class="form-check-input" />
+        <label asp-for="Disponible" class="form-check-label"></label>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PrecioPorDia" class="form-label"></label>
+        <input asp-for="PrecioPorDia" class="form-control" />
+        <span asp-validation-for="PrecioPorDia" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Volver</a>
+</form>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <partial name="_ValidationScriptsPartial" />
 }

@@ -1,71 +1,49 @@
 ﻿@model IEnumerable<AsiloPatitos.Domain.Entities.Paciente>
-
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Listado de Pacientes";
 }
 
-<h1>Index</h1>
+<h2>Listado de Pacientes</h2>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Agregar Paciente</a>
 </p>
-<table class="table">
-    <thead>
+
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cedula)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaIngreso)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Medicamentos)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CuidadosEspeciales)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NivelAsistencia)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PaqueteAdicional)
-            </th>
-            <th></th>
+            <th>Nombre</th>
+            <th>Cédula</th>
+            <th>Fecha de Ingreso</th>
+            <th>Nivel de Asistencia</th>
+            <th>Habitación</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cedula)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaIngreso)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Medicamentos)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CuidadosEspeciales)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NivelAsistencia)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PaqueteAdicional)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Nombre</td>
+                <td>@p.Cedula</td>
+                <td>@p.FechaIngreso.ToShortDateString()</td>
+                <td>@p.NivelAsistencia</td>
+                <td>@(p.Habitacion != null ? p.Habitacion.Numero : "Sin asignar")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@p.Id" class="btn btn-warning btn-sm">Editar</a>
+                    <a asp-action="Details" asp-route-id="@p.Id" class="btn btn-info btn-sm">Detalles</a>
+                    <a asp-action="Delete" asp-route-id="@p.Id" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
