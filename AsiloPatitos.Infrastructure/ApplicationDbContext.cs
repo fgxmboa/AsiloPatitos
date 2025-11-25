@@ -21,6 +21,14 @@ namespace AsiloPatitos.Infrastructure
         public DbSet<Reserva> Reservas { get; set; }
         public DbSet<Reporte> Reportes { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Tratamiento> Tratamientos { get; set; }
+        public DbSet<PacienteTratamiento> PacienteTratamientos { get; set; }
+        public DbSet<Medicamento> Medicamentos { get; set; }
+        public DbSet<PacienteMedicamento> PacienteMedicamentos { get; set; }
+        public DbSet<Pago> Pagos { get; set; }
+        public DbSet<Rol> Roles { get; set; }
+        public DbSet<EmpleadoRol> EmpleadoRoles { get; set; }
+
 
 
 
