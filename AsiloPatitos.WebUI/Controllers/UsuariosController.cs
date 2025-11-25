@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Security.Cryptography;
+using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,146 +21,111 @@ namespace AsiloPatitos.WebUI.Controllers
             _context = context;
         }
 
-        // GET: Usuarios
-        public async Task<IActionResult> Index()
+        // GET: Registro
+        public IActionResult Register()
         {
-            var applicationDbContext = _context.Usuarios.Include(u => u.Empleado);
-            return View(await applicationDbContext.ToListAsync());
-        }
-
-        // GET: Usuarios/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var usuario = await _context.Usuarios
-                .Include(u => u.Empleado)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-
-            return View(usuario);
-        }
-
-        // GET: Usuarios/Create
-        public IActionResult Create()
-        {
-            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Cedula");
             return View();
         }
 
-        // POST: Usuarios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //POST: Registro
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Correo,Contrasena,Rol,Activo,FechaCreacion,EmpleadoId")] Usuario usuario)
+        public async Task<IActionResult> Register(Usuario usuario)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(usuario);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["ErrorMessage"] = "Por favor complete todos los campos requeridos.";
+                return View(usuario);
             }
-            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Cedula", usuario.EmpleadoId);
-            return View(usuario);
+
+            // Validar correo duplicado
+            if (await _context.Usuarios.AnyAsync(u => u.Correo == usuario.Correo))
+            {
+                TempData["ErrorMessage"] = "El correo ya está registrado.";
+                return View(usuario);
+            }
+
+            // Hash de contraseña
+            usuario.Contrasena = HashPassword(usuario.Contrasena);
+
+            usuario.FechaCreacion = DateTime.Now;
+            usuario.Activo = true;
+
+            _context.Usuarios.Add(usuario);
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Usuario registrado correctamente.";
+            return RedirectToAction("Login");
         }
 
-        // GET: Usuarios/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        // =====================================================
+        //  GET: Login
+        // =====================================================
+        public IActionResult Login()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario == null)
-            {
-                return NotFound();
-            }
-            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Cedula", usuario.EmpleadoId);
-            return View(usuario);
+            return View();
         }
 
-        // POST: Usuarios/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // =====================================================
+        //  POST: Login
+        // =====================================================
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,Correo,Contrasena,Rol,Activo,FechaCreacion,EmpleadoId")] Usuario usuario)
+        public async Task<IActionResult> Login(string correo, string contrasena)
         {
-            if (id != usuario.Id)
+            if (string.IsNullOrWhiteSpace(correo) || string.IsNullOrWhiteSpace(contrasena))
             {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(usuario);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UsuarioExists(usuario.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["EmpleadoId"] = new SelectList(_context.Empleados, "Id", "Cedula", usuario.EmpleadoId);
-            return View(usuario);
-        }
-
-        // GET: Usuarios/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
+                TempData["ErrorMessage"] = "Debe ingresar el correo y la contraseña.";
+                return View();
             }
 
             var usuario = await _context.Usuarios
-                .Include(u => u.Empleado)
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(u => u.Correo == correo && u.Activo);
+
             if (usuario == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "Credenciales inválidas.";
+                return View();
             }
 
-            return View(usuario);
-        }
-
-        // POST: Usuarios/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario != null)
+            if (!VerifyPassword(contrasena, usuario.Contrasena))
             {
-                _context.Usuarios.Remove(usuario);
+                TempData["ErrorMessage"] = "Credenciales incorrectas.";
+                return View();
             }
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            // Crear sesión
+            HttpContext.Session.SetInt32("UsuarioId", usuario.Id);
+            HttpContext.Session.SetString("NombreUsuario", usuario.Nombre);
+            HttpContext.Session.SetString("Rol", usuario.Rol);
+
+            TempData["SuccessMessage"] = "Bienvenido.";
+            return RedirectToAction("Index", "Home");
         }
 
-        private bool UsuarioExists(int id)
+        // =====================================================
+        //  GET: Logout
+        // =====================================================
+        public IActionResult Logout()
         {
-            return _context.Usuarios.Any(e => e.Id == id);
+            HttpContext.Session.Clear();
+            return RedirectToAction("Login");
+        }
+
+        // =====================================================
+        //  Hash + Validación
+        // =====================================================
+        private string HashPassword(string password)
+        {
+            using var sha = SHA256.Create();
+            var bytes = Encoding.UTF8.GetBytes(password);
+            var hash = sha.ComputeHash(bytes);
+            return Convert.ToBase64String(hash);
+        }
+
+        private bool VerifyPassword(string password, string hashedPassword)
+        {
+            return HashPassword(password) == hashedPassword;
         }
     }
 }

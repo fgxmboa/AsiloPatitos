@@ -13,31 +13,37 @@ namespace AsiloPatitos.Domain.Entities
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        [StringLength(100)]
+
+        [Required(ErrorMessage = "Debe ingresar el nombre.")]
+        [StringLength(100, ErrorMessage = "El nombre no debe superar los 100 caracteres.")]
         public string Nombre { get; set; } = string.Empty;
 
-        [Required]
-        [StringLength(100)]
+        [Required(ErrorMessage = "Debe ingresar el apellido.")]
+        [StringLength(100, ErrorMessage = "El apellido no debe superar los 100 caracteres.")]
         public string Apellido { get; set; } = string.Empty;
 
-        [Required]
-        [EmailAddress]
-        [StringLength(150)]
+
+
+        [Required(ErrorMessage = "Debe ingresar un correo electrónico.")]
+        [EmailAddress(ErrorMessage = "Debe ingresar un correo electrónico válido.")]
+        [StringLength(150, ErrorMessage = "El correo no debe superar los 150 caracteres.")]
         public string Correo { get; set; } = string.Empty;
 
-        [Required]
-        [StringLength(255)]
+        [Required(ErrorMessage = "Debe ingresar una contraseña.")]
+        [StringLength(255, MinimumLength = 6,
+            ErrorMessage = "La contraseña debe tener al menos 6 caracteres.")]
         public string Contrasena { get; set; } = string.Empty;
 
-        [Required]
-        [StringLength(50)]
-        public string Rol { get; set; } = "Empleado"; 
+
+        [Required(ErrorMessage = "Debe seleccionar un rol.")]
+        [StringLength(50, ErrorMessage = "El rol no debe superar los 50 caracteres.")]
+        public string Rol { get; set; } = "Empleado";
 
         public bool Activo { get; set; } = true;
 
         [Required]
         public DateTime FechaCreacion { get; set; } = DateTime.Now;
+
 
         public int? EmpleadoId { get; set; }
 
