@@ -22,8 +22,10 @@ namespace AsiloPatitos.WebUI.Controllers
         // GET: Habitaciones
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Habitaciones.Include(h => h.Paciente);
-            return View(await applicationDbContext.ToListAsync());
+            var habitaciones = await _context.Habitaciones
+                .Include(h => h.Paciente)
+                .ToListAsync();
+            return View(habitaciones);
         }
 
         // GET: Habitaciones/Details/5
@@ -31,15 +33,18 @@ namespace AsiloPatitos.WebUI.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "No se encontró la habitación solicitada.";
+                return RedirectToAction(nameof(Index));
             }
 
             var habitacion = await _context.Habitaciones
                 .Include(h => h.Paciente)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (habitacion == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "La habitación no existe.";
+                return RedirectToAction(nameof(Index));
             }
 
             return View(habitacion);
@@ -48,7 +53,8 @@ namespace AsiloPatitos.WebUI.Controllers
         // GET: Habitaciones/Create
         public IActionResult Create()
         {
-            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Cedula");
+            TempData.Remove("SuccessMessage");
+            TempData.Remove("ErrorMessage");
             return View();
         }
 
@@ -57,16 +63,34 @@ namespace AsiloPatitos.WebUI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Numero,Tipo,Disponible,PrecioPorDia,PacienteId")] Habitacion habitacion)
+        public async Task<IActionResult> Create(Habitacion habitacion)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
+                TempData["ErrorMessage"] = "Por favor, complete todos los campos requeridos.";
+                return View(habitacion);
+            }
+
+            try
+            {
+                bool existe = await _context.Habitaciones.AnyAsync(h => h.Numero == habitacion.Numero);
+                if (existe)
+                {
+                    TempData["ErrorMessage"] = "Ya existe una habitación con ese número.";
+                    return View(habitacion);
+                }
+
                 _context.Add(habitacion);
                 await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Habitación creada exitosamente.";
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Cedula", habitacion.PacienteId);
-            return View(habitacion);
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Ocurrió un error al guardar los datos: {ex.Message}";
+                return View(habitacion);
+            }
         }
 
         // GET: Habitaciones/Edit/5
@@ -74,15 +98,17 @@ namespace AsiloPatitos.WebUI.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "No se encontró la habitación solicitada.";
+                return RedirectToAction(nameof(Index));
             }
 
             var habitacion = await _context.Habitaciones.FindAsync(id);
             if (habitacion == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "La habitación no existe.";
+                return RedirectToAction(nameof(Index));
             }
-            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Cedula", habitacion.PacienteId);
+
             return View(habitacion);
         }
 
@@ -91,35 +117,41 @@ namespace AsiloPatitos.WebUI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Numero,Tipo,Disponible,PrecioPorDia,PacienteId")] Habitacion habitacion)
+        public async Task<IActionResult> Edit(int id, Habitacion habitacion)
         {
             if (id != habitacion.Id)
             {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(habitacion);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!HabitacionExists(habitacion.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                TempData["ErrorMessage"] = "Error de coincidencia en los datos.";
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Cedula", habitacion.PacienteId);
-            return View(habitacion);
+
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Verifique los campos antes de guardar.";
+                return View(habitacion);
+            }
+
+            try
+            {
+                _context.Update(habitacion);
+                await _context.SaveChangesAsync();
+
+                TempData["SuccessMessage"] = "Habitación actualizada correctamente.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.Habitaciones.Any(e => e.Id == habitacion.Id))
+                {
+                    TempData["ErrorMessage"] = "La habitación ya no existe.";
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "Ocurrió un error de concurrencia.";
+                    return View(habitacion);
+                }
+            }
         }
 
         // GET: Habitaciones/Delete/5
@@ -127,21 +159,23 @@ namespace AsiloPatitos.WebUI.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "No se encontró la habitación a eliminar.";
+                return RedirectToAction(nameof(Index));
             }
 
             var habitacion = await _context.Habitaciones
-                .Include(h => h.Paciente)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (habitacion == null)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "La habitación no existe.";
+                return RedirectToAction(nameof(Index));
             }
 
             return View(habitacion);
         }
 
-        // POST: Habitaciones/Delete/5
+        // POST: Habitaciones/DeleteConfirmed
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -150,9 +184,14 @@ namespace AsiloPatitos.WebUI.Controllers
             if (habitacion != null)
             {
                 _context.Habitaciones.Remove(habitacion);
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Habitación eliminada correctamente.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "No se pudo eliminar la habitación.";
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
