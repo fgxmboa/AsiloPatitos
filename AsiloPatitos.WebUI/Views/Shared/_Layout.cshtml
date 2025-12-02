@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
@@ -38,9 +41,34 @@
                         <li class="nav-item"><a class="nav-link" href="/Habitaciones">Habitaciones</a></li>
                         <li class="nav-item"><a class="nav-link" href="/Reporteria">Reportería</a></li>
 
-                        <li class="nav-item ms-3">
-                            <a class="btn btn-nav-login" href="/Usuarios/Login">Iniciar sesión</a>
-                        </li>
+                        @{
+                            var usuarioId = HttpContextAccessor.HttpContext.Session.GetInt32("UsuarioId");
+                            var nombre = HttpContextAccessor.HttpContext.Session.GetString("NombreUsuario");
+                            var rol = HttpContextAccessor.HttpContext.Session.GetString("Rol");
+                        }
+
+                        @if (usuarioId == null)
+                        {
+                            <!-- Usuario NO está logueado -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Usuarios/Login">Iniciar sesión</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <!-- Usuario SÍ está logueado -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="perfilMenu" role="button" data-bs-toggle="dropdown">
+                                    Bienvenido/a @nombre
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><span class="dropdown-item-text">Rol: @rol</span></li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li><a class="dropdown-item" href="/Usuarios/Logout">Cerrar sesión</a></li>
+                                </ul>
+                            </li>
+                        }
+
 
                     </ul>
                 </div>

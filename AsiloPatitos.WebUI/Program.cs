@@ -18,6 +18,7 @@ namespace AsiloPatitos.WebUI
                 options.Cookie.IsEssential = true;           
             });
 
+            builder.Services.AddHttpContextAccessor();
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
