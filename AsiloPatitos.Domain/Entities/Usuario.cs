@@ -49,5 +49,9 @@ namespace AsiloPatitos.Domain.Entities
 
         [ForeignKey(nameof(EmpleadoId))]
         public Empleado? Empleado { get; set; }
+
+        public string? ResetToken { get; set; }
+        public DateTime? ResetTokenExpiracion { get; set; }
+
     }
 }
