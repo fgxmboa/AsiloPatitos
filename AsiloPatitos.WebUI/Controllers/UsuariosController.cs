@@ -1,14 +1,16 @@
 ﻿using System;
-using System.Security.Cryptography;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
+using AsiloPatitos.Domain.Entities;
+using AsiloPatitos.Infrastructure;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using AsiloPatitos.Domain.Entities;
-using AsiloPatitos.Infrastructure;
 
 namespace AsiloPatitos.WebUI.Controllers
 {
@@ -94,6 +96,20 @@ namespace AsiloPatitos.WebUI.Controllers
                 return View();
             }
 
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, usuario.Nombre),
+                new Claim(ClaimTypes.Email, usuario.Correo),
+                new Claim(ClaimTypes.Role, usuario.Rol),
+                new Claim("UsuarioId", usuario.Id.ToString())
+            };
+
+            var identity = new ClaimsIdentity(claims, "Cookies");
+            var claimsPrincipal = new ClaimsPrincipal(identity);
+
+            // Crear cookie de autenticación
+            await HttpContext.SignInAsync("Cookies", claimsPrincipal);
+
             // Crear sesión
             HttpContext.Session.SetInt32("UsuarioId", usuario.Id);
             HttpContext.Session.SetString("NombreUsuario", usuario.Nombre);
@@ -106,8 +122,9 @@ namespace AsiloPatitos.WebUI.Controllers
         // =====================================================
         //  GET: Logout
         // =====================================================
-        public IActionResult Logout()
+        public async Task<IActionResult> Logout()
         {
+            await HttpContext.SignOutAsync("Cookies");
             HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
