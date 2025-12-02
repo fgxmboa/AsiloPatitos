@@ -2,16 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using AsiloPatitos.Domain.Entities;
 using AsiloPatitos.Infrastructure;
 using AsiloPatitos.WebUI.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace AsiloPatitos.WebUI.Controllers
 {
+    [Authorize(Roles = "Administrador,Gerencia")]
     public class ReportesController : Controller
     {
         private readonly ApplicationDbContext _context;
