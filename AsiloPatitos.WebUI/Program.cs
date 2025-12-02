@@ -25,6 +25,13 @@ namespace AsiloPatitos.WebUI
                 )
             );
 
+            builder.Services.AddAuthentication("Cookies").AddCookie("Cookies", options =>
+            {
+                options.LoginPath = "/Usuarios/Login";
+                options.AccessDeniedPath = "/Home/AccessDenied";
+            });
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -40,6 +47,7 @@ namespace AsiloPatitos.WebUI
 
             app.UseRouting();
             app.UseSession();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
