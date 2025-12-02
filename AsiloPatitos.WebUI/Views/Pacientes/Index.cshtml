@@ -48,7 +48,7 @@
                                     <td>@p.Cedula</td>
                                     <td>@p.FechaIngreso.ToShortDateString()</td>
                                     <td>@p.NivelAsistencia</td>
-                                    <td>@(p.Habitacion != null ? p.Habitacion.Numero : "Sin asignar")</td>
+                                    <td>@(p.HabitacionId != null ? p.HabitacionId: "Sin asignar")</td>
 
                                     <td class="text-end">
                                         <a asp-action="Edit" asp-route-id="@p.Id" class="btn-action edit">Editar</a>
