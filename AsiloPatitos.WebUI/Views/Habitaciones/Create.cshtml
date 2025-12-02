@@ -4,46 +4,71 @@
     ViewData["Title"] = "Crear Habitación";
 }
 
-<h2>Crear Habitación</h2>
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
 
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
-}
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
-}
+            <div class="card-form">
+                <h2 class="text-center form-title mb-4">Crear Habitación</h2>
 
-<form asp-action="Create" method="post" class="needs-validation">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+                }
 
-    <div class="mb-3">
-        <label asp-for="Numero" class="form-label"></label>
-        <input asp-for="Numero" class="form-control" />
-        <span asp-validation-for="Numero" class="text-danger"></span>
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+                }
+
+                <form asp-action="Create" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <!-- Número -->
+                    <div class="mb-3">
+                        <label asp-for="Numero" class="form-label form-label-custom"></label>
+                        <input asp-for="Numero" class="form-control form-input" />
+                        <span asp-validation-for="Numero" class="text-danger"></span>
+                    </div>
+
+                    <!-- Tipo -->
+                    <div class="mb-3">
+                        <label asp-for="Tipo" class="form-label form-label-custom"></label>
+                        <input asp-for="Tipo" class="form-control form-input" />
+                        <span asp-validation-for="Tipo" class="text-danger"></span>
+                    </div>
+
+                    <!-- Disponible -->
+                    <div class="mb-3 form-check">
+                        <input asp-for="Disponible" class="form-check-input" />
+                        <label asp-for="Disponible" class="form-check-label form-label-custom"></label>
+                    </div>
+
+                    <!-- Precio por día -->
+                    <div class="mb-3">
+                        <label asp-for="PrecioPorDia" class="form-label form-label-custom"></label>
+                        <input asp-for="PrecioPorDia" class="form-control form-input" />
+                        <span asp-validation-for="PrecioPorDia" class="text-danger"></span>
+                    </div>
+
+                    <!-- Botón Crear -->
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-form-submit">Crear habitación</button>
+                    </div>
+                </form>
+
+                <!-- Volver -->
+                <div class="text-center mt-4">
+                    <a asp-action="Index" class="btn-back">← Volver al listado</a>
+                </div>
+
+            </div>
+
+        </div>
     </div>
-
-    <div class="mb-3">
-        <label asp-for="Tipo" class="form-label"></label>
-        <input asp-for="Tipo" class="form-control" />
-        <span asp-validation-for="Tipo" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3 form-check">
-        <input asp-for="Disponible" class="form-check-input" />
-        <label asp-for="Disponible" class="form-check-label"></label>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="PrecioPorDia" class="form-label"></label>
-        <input asp-for="PrecioPorDia" class="form-control" />
-        <span asp-validation-for="PrecioPorDia" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-success">Guardar</button>
-    <a asp-action="Index" class="btn btn-secondary">Volver</a>
-</form>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

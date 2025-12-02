@@ -4,29 +4,43 @@
     ViewData["Title"] = "Detalle de Reserva";
 }
 
-<h2>Detalle de Reserva</h2>
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
 
-<div>
-    <dl class="row">
-        <dt class="col-sm-3">Paciente</dt>
-        <dd class="col-sm-9">@Model.Paciente?.Nombre</dd>
+            <div class="card-form">
 
-        <dt class="col-sm-3">Habitación</dt>
-        <dd class="col-sm-9">@Model.Habitacion?.Numero</dd>
+                <h2 class="form-title mb-4 text-center">Detalle de la Reserva</h2>
 
-        <dt class="col-sm-3">Fecha Ingreso</dt>
-        <dd class="col-sm-9">@Model.FechaIngreso.ToShortDateString()</dd>
+                <dl class="row mb-4">
 
-        <dt class="col-sm-3">Fecha Salida</dt>
-        <dd class="col-sm-9">@Model.FechaSalida.ToShortDateString()</dd>
+                    <dt class="col-sm-4 fw-bold">Paciente</dt>
+                    <dd class="col-sm-8">@Model.Paciente?.Nombre</dd>
 
-        <dt class="col-sm-3">Total</dt>
-        <dd class="col-sm-9">@Model.Total</dd>
+                    <dt class="col-sm-4 fw-bold">Habitación</dt>
+                    <dd class="col-sm-8">@Model.Habitacion?.Numero</dd>
 
-        <dt class="col-sm-3">Estado</dt>
-        <dd class="col-sm-9">@Model.Estado</dd>
-    </dl>
-</div>
+                    <dt class="col-sm-4 fw-bold">Fecha Ingreso</dt>
+                    <dd class="col-sm-8">@Model.FechaIngreso.ToShortDateString()</dd>
 
-<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
-<a asp-action="Index" class="btn btn-secondary">Volver</a>
+                    <dt class="col-sm-4 fw-bold">Fecha Salida</dt>
+                    <dd class="col-sm-8">@Model.FechaSalida.ToShortDateString()</dd>
+
+                    <dt class="col-sm-4 fw-bold">Total</dt>
+                    <dd class="col-sm-8">@Model.Total</dd>
+
+                    <dt class="col-sm-4 fw-bold">Estado</dt>
+                    <dd class="col-sm-8">@Model.Estado</dd>
+
+                </dl>
+
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn-back">Volver</a>
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn-form-submit">Editar</a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>

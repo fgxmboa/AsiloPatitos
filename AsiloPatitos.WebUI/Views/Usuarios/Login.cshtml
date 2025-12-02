@@ -2,31 +2,48 @@
     ViewData["Title"] = "Inicio de Sesión";
 }
 
-<h2 class="mb-4">Iniciar Sesión</h2>
+<section class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
 
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
-}
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
-}
+            <div class="card-form">
+                <h2 class="form-title text-center mb-4">Iniciar Sesión</h2>
 
-<form asp-action="Login" method="post">
-    <div class="mb-3">
-        <label for="correo" class="form-label">Correo</label>
-        <input type="email" name="correo" id="correo" class="form-control" />
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+                }
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+                }
+
+                <form asp-action="Login" method="post">
+
+                    <div class="mb-3">
+                        <label for="correo" class="form-label form-label-custom">Correo</label>
+                        <input type="email" name="correo" id="correo" class="form-control form-input" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="contrasena" class="form-label form-label-custom">Contraseña</label>
+                        <input type="password" name="contrasena" id="contrasena" class="form-control form-input" />
+                    </div>
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn-form-submit">Ingresar</button>
+                    </div>
+                </form>
+
+                <div class="text-center mt-4">
+                    <a asp-action="Register" class="btn-back">Crear Cuenta</a>
+                </div>
+
+            </div>
+
+        </div>
     </div>
-
-    <div class="mb-3">
-        <label for="contrasena" class="form-label">Contraseña</label>
-        <input type="password" name="contrasena" id="contrasena" class="form-control" />
-    </div>
-
-    <button type="submit" class="btn btn-primary">Ingresar</button>
-    <a asp-action="Register" class="btn btn-secondary ms-2">Crear Cuenta</a>
-</form>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
