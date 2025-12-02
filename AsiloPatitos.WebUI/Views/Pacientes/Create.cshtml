@@ -39,21 +39,38 @@
                         <span asp-validation-for="FechaIngreso" class="text-danger"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="NivelAsistencia" class="form-label form-label-custom"></label>
-                        <input asp-for="NivelAsistencia" class="form-control form-input" />
+                    <div class="form-group mb-3">
+                        <label class="fw-bold">NivelAsistencia</label>
+                        <select asp-for="NivelAsistencia" class="form-control">
+                            <option value="">Seleccione una opción</option>
+                            <option>Asistencia básica</option>
+                            <option>Asistencia para movilidad</option>
+                            <option>Asistencia para alimentación</option>
+                            <option>Asistencia para baño</option>
+                            <option>Asistencia completa</option>
+                        </select>
                         <span asp-validation-for="NivelAsistencia" class="text-danger"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="CuidadosEspeciales" class="form-label form-label-custom"></label>
-                        <textarea asp-for="CuidadosEspeciales" class="form-control form-input"></textarea>
+                    <div class="form-group mb-3">
+                        <label class="fw-bold">CuidadosEspeciales</label>
+                        <select asp-for="CuidadosEspeciales" class="form-control">
+                            <option value="">Seleccione una opción</option>
+                            <option>Alergias</option>
+                            <option>Cambios de vendajes</option>
+                            <option>Dietas especiales</option>
+                        </select>
                         <span asp-validation-for="CuidadosEspeciales" class="text-danger"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="PaqueteAdicional" class="form-label form-label-custom"></label>
-                        <input asp-for="PaqueteAdicional" class="form-control form-input" />
+                    <div class="form-group mb-3">
+                        <label class="fw-bold">PaqueteAdicional</label>
+                        <select asp-for="PaqueteAdicional" class="form-control">
+                            <option value="">Seleccione una opción</option>
+                            <option>Disfrute de juegos</option>
+                            <option>Visitas a los familiares</option>
+                            <option>Paseos a sitios con acompañamiento</option>
+                        </select>
                         <span asp-validation-for="PaqueteAdicional" class="text-danger"></span>
                     </div>
 
