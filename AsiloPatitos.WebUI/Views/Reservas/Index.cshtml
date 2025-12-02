@@ -37,8 +37,8 @@
                                 <th>Habitación</th>
                                 <th>Ingreso</th>
                                 <th>Salida</th>
-                                <th>Total</th>
-                                <th>Estado</th>
+                                <th>Timepo de Estancia</th>
+
                                 <th class="text-end">Acciones</th>
                             </tr>
                         </thead>
@@ -51,8 +51,8 @@
                                     <td>@item.Habitacion?.Numero</td>
                                     <td>@item.FechaIngreso.ToShortDateString()</td>
                                     <td>@item.FechaSalida.ToShortDateString()</td>
-                                    <td>@item.Total</td>
-                                    <td>@item.Estado</td>
+                                    <td>@item.TiempoEstancia</td>
+
 
                                     <td class="text-end">
                                         <a asp-action="Details" asp-route-id="@item.Id" class="btn-action details">Ver</a>

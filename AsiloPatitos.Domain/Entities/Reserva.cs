@@ -31,15 +31,11 @@ namespace AsiloPatitos.Domain.Entities
         [CompareDate(nameof(FechaIngreso), ErrorMessage = "La fecha de salida debe ser posterior a la fecha de ingreso.")]
         public DateTime FechaSalida { get; set; }
 
-        // Total
-        [Required(ErrorMessage = "Debe ingresar el total.")]
-        [Column(TypeName = "decimal(10,2)")]
-        public decimal Total { get; set; }
+        // Tiempo de Estancia
+        [Required(ErrorMessage = "Debe seleccionar un tiempo de estancia.")]
+        [StringLength(30, ErrorMessage = "El tiempo de estancia no debe superar los 30 caracteres.")]
+        public string TiempoEstancia { get; set; } = string.Empty;
 
-        // Estado
-        [Required(ErrorMessage = "Debe indicar el estado de la reserva.")]
-        [StringLength(20, ErrorMessage = "El estado no debe superar los 20 caracteres.")]
-        public string Estado { get; set; } = "Pendiente";
 
         // Navegación
         public Paciente? Paciente { get; set; }
