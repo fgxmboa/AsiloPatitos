@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AsiloPatitos.Domain.Entities;
+using AsiloPatitos.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using AsiloPatitos.Domain.Entities;
-using AsiloPatitos.Infrastructure;
 
 namespace AsiloPatitos.WebUI.Controllers
 {
+    [Authorize(Roles = "Administrador,Gerencia,Gestión de Pacientes")]
     public class PacientesController : Controller
     {
         private readonly ApplicationDbContext _context;
