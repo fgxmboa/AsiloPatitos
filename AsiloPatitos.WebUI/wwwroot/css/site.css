@@ -32,7 +32,7 @@ body {
 }
 
 .brand-logo {
-    width: 150px;
+    width: 100px;
 }
 
 .brand-title {
@@ -147,6 +147,19 @@ body {
 #servicios {
     background-color: #FFFFFF;
 }
+.card-custom {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: 0.3s;
+    height: 160px; /* Altura uniforme */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 
 /* ============================
    HABITACIONES
@@ -192,15 +205,17 @@ body {
    RESEÑAS
 ============================ */
 .card-review {
-    background-color: #FFFFFF;
-    border: 2px solid var(--gris-borde);
-    border-radius: 16px;
-    padding: 1.2rem;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 25px;
     display: flex;
+    align-items: flex-start;
     gap: 15px;
-    align-items: center;
-    box-shadow: var(--sombra);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    transition: 0.3s;
+    height: 170px; /* ALTURA IGUAL PARA TODAS */
 }
+
 
 .review-avatar {
     width: 55px;
@@ -216,6 +231,13 @@ body {
 .stars {
     color: var(--amarillo);
 }
+.card-review,
+.card-custom,
+.card-room {
+    border: 1.5px solid rgba(143, 102, 45, 0.25); /* marrón suave */
+    border-radius: 18px;
+}
+
 
 /* ============================
    FORMULARIOS
