@@ -28,7 +28,7 @@ namespace AsiloPatitos.Domain.Entities
         public string Departamento { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "El perfil es obligatorio")]
-        [StringLength(40)]
+        [StringLength(200)]
         public string Perfil { get; set; } = string.Empty;
     }
 

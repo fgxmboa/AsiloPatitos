@@ -4,6 +4,7 @@ using AsiloPatitos.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AsiloPatitos.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251202111244_UpdateSeed")]
+    partial class UpdateSeed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,8 +53,8 @@ namespace AsiloPatitos.Infrastructure.Migrations
 
                     b.Property<string>("Perfil")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.HasKey("Id");
 
@@ -66,9 +69,9 @@ namespace AsiloPatitos.Infrastructure.Migrations
                             Id = 1,
                             Cedula = "1-1111-1111",
                             Departamento = "Administración",
-                            FechaIngreso = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaIngreso = new DateTime(2023, 12, 2, 5, 12, 43, 403, DateTimeKind.Local).AddTicks(830),
                             Nombre = "Administrador",
-                            Perfil = "Encargado de la gestión general"
+                            Perfil = "Encargado de la gestión general del asilo"
                         });
                 });
 
@@ -619,7 +622,7 @@ namespace AsiloPatitos.Infrastructure.Migrations
                             Contrasena = "$2a$11$M9vB7pSGH2z0qK/Cgmi4v.N/0tXk9N6yjifZEB6Tt0z9oEXzEOmQ2",
                             Correo = "admin@patitos.com",
                             EmpleadoId = 1,
-                            FechaCreacion = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            FechaCreacion = new DateTime(2025, 12, 2, 5, 12, 43, 404, DateTimeKind.Local).AddTicks(7648),
                             Nombre = "Admin",
                             Rol = "Administrador"
                         });
