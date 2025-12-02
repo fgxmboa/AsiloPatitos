@@ -4,6 +4,7 @@ using AsiloPatitos.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AsiloPatitos.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251202111649_FixStaticDate")]
+    partial class FixStaticDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,8 +53,8 @@ namespace AsiloPatitos.Infrastructure.Migrations
 
                     b.Property<string>("Perfil")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.HasKey("Id");
 
@@ -68,7 +71,7 @@ namespace AsiloPatitos.Infrastructure.Migrations
                             Departamento = "Administración",
                             FechaIngreso = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Nombre = "Administrador",
-                            Perfil = "Encargado de la gestión general"
+                            Perfil = "Encargado de la gestión general del asilo"
                         });
                 });
 
