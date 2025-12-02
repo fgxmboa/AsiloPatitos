@@ -73,6 +73,41 @@ namespace AsiloPatitos.WebUI.Controllers
                 return View(reserva);
             }
 
+            // ============================
+            // VALIDACIÓN 1: EL PACIENTE NO PUEDE TENER DOS RESERVAS EN EL MISMO RANGO
+            // ============================
+            bool pacienteTieneChoque = await _context.Reservas.AnyAsync(r =>
+                r.PacienteId == reserva.PacienteId &&
+                r.Id != reserva.Id &&
+                r.FechaIngreso < reserva.FechaSalida &&
+                r.FechaSalida > reserva.FechaIngreso);
+
+            if (pacienteTieneChoque)
+            {
+                TempData["ErrorMessage"] = "Este paciente ya tiene una reserva para estas fechas.";
+                ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Nombre", reserva.PacienteId);
+                ViewData["HabitacionId"] = new SelectList(_context.Habitaciones, "Id", "Numero", reserva.HabitacionId);
+                return View(reserva);
+            }
+
+            // ============================
+            // VALIDACIÓN 2: LA HABITACIÓN NO PUEDE ESTAR RESERVADA EN EL MISMO RANGO
+            // ============================
+            bool habitacionOcupada = await _context.Reservas.AnyAsync(r =>
+                r.HabitacionId == reserva.HabitacionId &&
+                r.Id != reserva.Id &&
+                r.FechaIngreso < reserva.FechaSalida &&
+                r.FechaSalida > reserva.FechaIngreso);
+
+            if (habitacionOcupada)
+            {
+                TempData["ErrorMessage"] = "La habitación seleccionada ya está reservada en este rango de fechas.";
+                ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Nombre", reserva.PacienteId);
+                ViewData["HabitacionId"] = new SelectList(_context.Habitaciones, "Id", "Numero", reserva.HabitacionId);
+                return View(reserva);
+            }
+
+            // Guardar si todo está bien
             try
             {
                 _context.Add(reserva);
@@ -91,6 +126,7 @@ namespace AsiloPatitos.WebUI.Controllers
                 return View(reserva);
             }
         }
+
 
         // GET: Reservas/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -125,6 +161,40 @@ namespace AsiloPatitos.WebUI.Controllers
                 return View(reserva);
             }
 
+            // VALIDACIÓN 1: Paciente no puede tener reservas cruzadas
+            bool pacienteTieneChoque = await _context.Reservas.AnyAsync(r =>
+                r.PacienteId == reserva.PacienteId &&
+                r.Id != reserva.Id &&
+                r.FechaIngreso < reserva.FechaSalida &&
+                r.FechaSalida > reserva.FechaIngreso);
+
+            if (pacienteTieneChoque)
+            {
+                TempData["ErrorMessage"] = "Este paciente ya tiene una reserva en este rango de fechas.";
+
+                ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Nombre", reserva.PacienteId);
+                ViewData["HabitacionId"] = new SelectList(_context.Habitaciones, "Id", "Numero", reserva.HabitacionId);
+
+                return View(reserva);
+            }
+
+            // VALIDACIÓN 2: Habitación no puede tener reservas cruzadas
+            bool habitacionOcupada = await _context.Reservas.AnyAsync(r =>
+                r.HabitacionId == reserva.HabitacionId &&
+                r.Id != reserva.Id &&
+                r.FechaIngreso < reserva.FechaSalida &&
+                r.FechaSalida > reserva.FechaIngreso);
+
+            if (habitacionOcupada)
+            {
+                TempData["ErrorMessage"] = "La habitación seleccionada ya está ocupada en este rango.";
+
+                ViewData["PacienteId"] = new SelectList(_context.Pacientes, "Id", "Nombre", reserva.PacienteId);
+                ViewData["HabitacionId"] = new SelectList(_context.Habitaciones, "Id", "Numero", reserva.HabitacionId);
+
+                return View(reserva);
+            }
+
             try
             {
                 _context.Update(reserva);
@@ -133,19 +203,13 @@ namespace AsiloPatitos.WebUI.Controllers
                 TempData["SuccessMessage"] = "Reserva actualizada correctamente.";
                 return RedirectToAction(nameof(Index));
             }
-            catch (DbUpdateConcurrencyException)
+            catch
             {
-                if (!ReservaExists(reserva.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    TempData["ErrorMessage"] = "Error de concurrencia al actualizar.";
-                    return View(reserva);
-                }
+                TempData["ErrorMessage"] = "Error al actualizar la reserva.";
+                return View(reserva);
             }
         }
+
 
 
         // GET: Reservas/Delete/5
