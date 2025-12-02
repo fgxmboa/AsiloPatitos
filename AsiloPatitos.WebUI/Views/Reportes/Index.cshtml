@@ -1,65 +1,74 @@
-﻿@model IEnumerable<AsiloPatitos.Domain.Entities.Reporte>
+﻿@model AsiloPatitos.WebUI.Models.ReporteViewModel
+
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Reportes";
 }
 
-<h1>Index</h1>
+<section class="container text-center py-5">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Titulo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaCreacion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Tipo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Empleado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Paciente)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Titulo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaCreacion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tipo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Empleado.Cedula)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Paciente.Cedula)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <h1 class="mb-5" style="font-weight:700; color:#8F662D;">Reportes</h1>
+
+    <div class="row justify-content-center g-4">
+
+        <!-- Pacientes Registrados -->
+        <div class="col-md-4">
+            <div class="report-card">
+                <h4>Cantidad de pacientes registrados</h4>
+                <p>@Model.PacientesRegistrados</p>
+            </div>
+        </div>
+
+        <!-- Pacientes Alojados -->
+        <div class="col-md-4">
+            <div class="report-card">
+                <h4>Cantidad de pacientes alojados</h4>
+                <p>@Model.PacientesAlojados</p>
+            </div>
+        </div>
+
+        <!-- Pacientes por día -->
+        <div class="col-md-4">
+            <div class="report-card">
+                <h4>Cantidad de pacientes alojados por día</h4>
+                <p>@Model.PacientesPorDia</p>
+            </div>
+        </div>
+
+        <!-- Habitaciones ocupadas vs totales -->
+        <div class="col-md-4">
+            <div class="report-card">
+                <h4>Habitaciones reservadas vs totales</h4>
+                <p>@Model.HabitacionesOcupadas / @Model.HabitacionesTotales</p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<style>
+    .report-card {
+        background: #FFE89A;
+        padding: 25px;
+        border-radius: 20px;
+        box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+        transition: transform 0.2s ease;
+    }
+
+        .report-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .report-card h4 {
+            font-weight: 600;
+            color: #8F662D;
+        }
+
+        .report-card p {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin-top: 10px;
+        }
+</style>

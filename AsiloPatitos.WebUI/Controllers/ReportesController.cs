@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AsiloPatitos.Domain.Entities;
 using AsiloPatitos.Infrastructure;
+using AsiloPatitos.WebUI.Models;
+
 
 namespace AsiloPatitos.WebUI.Controllers
 {
@@ -22,8 +24,33 @@ namespace AsiloPatitos.WebUI.Controllers
         // GET: Reportes
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Reportes.Include(r => r.Empleado).Include(r => r.Paciente);
-            return View(await applicationDbContext.ToListAsync());
+            // 1. Cantidad de pacientes registrados
+            int pacientesRegistrados = await _context.Pacientes.CountAsync();
+
+            // 2. Cantidad de pacientes alojados (pacientes con reserva activa)
+            int pacientesAlojados = await _context.Reservas
+                .CountAsync(r => r.FechaIngreso <= DateTime.Today
+                                 && r.FechaSalida >= DateTime.Today);
+
+            // 3. Cantidad de pacientes alojados por día (HOY)
+            int pacientesPorDia = pacientesAlojados;
+
+            // 4. Habitaciones reservadas vs totales
+            int habitacionesTotales = await _context.Habitaciones.CountAsync();
+            int habitacionesOcupadas = await _context.Reservas
+                .CountAsync(r => r.FechaIngreso <= DateTime.Today
+                                 && r.FechaSalida >= DateTime.Today);
+
+            var model = new ReporteViewModel
+            {
+                PacientesRegistrados = pacientesRegistrados,
+                PacientesAlojados = pacientesAlojados,
+                PacientesPorDia = pacientesPorDia,
+                HabitacionesTotales = habitacionesTotales,
+                HabitacionesOcupadas = habitacionesOcupadas
+            };
+
+            return View(model);
         }
 
         // GET: Reportes/Details/5
