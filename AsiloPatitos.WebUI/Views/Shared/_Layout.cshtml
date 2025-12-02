@@ -85,12 +85,65 @@
         @RenderBody()
     </main>
 
-    <footer class="site-footer">
-        <div class="container text-center py-4">
-            <p class="mb-1">© @DateTime.Now.Year Patitos del Retiro — Todos los derechos reservados</p>
-            <small>Dirección · Teléfono · Correo</small>
+    <footer class="footer mt-5">
+        <div class="container py-5">
+
+            <div class="row text-center text-md-start">
+
+                <!-- COLUMNA 1 -->
+                <div class="col-md-4 mb-4">
+                    <h5 class="fw-bold footer-title">Patitos del Retiro</h5>
+                    <p class="footer-text">
+                        Un hogar dedicado al bienestar, cariño y atención profesional para nuestros adultos mayores.
+                    </p>
+                </div>
+
+                <!-- COLUMNA 2: MENÚ -->
+                <div class="col-md-4 mb-4">
+                    <h6 class="fw-bold footer-subtitle">Menú</h6>
+                    <ul class="list-unstyled footer-links mt-2">
+                        <li><a href="/Home/Index" class="footer-link">Inicio</a></li>
+                        <li><a href="/Home/Nosotros" class="footer-link">Quiénes somos</a></li>
+                        <li><a href="/#servicios" class="footer-link">Servicios</a></li>
+                        <li><a href="/#habitaciones" class="footer-link">Habitaciones</a></li>
+                        <li><a href="/Reservas/Create" class="footer-link">Reservar</a></li>
+                    </ul>
+                </div>
+
+                <!-- COLUMNA 3: CONTACTO -->
+                <div class="col-md-4 mb-4">
+                    <h6 class="fw-bold footer-subtitle">Contacto</h6>
+
+                    <ul class="list-unstyled footer-text mt-2">
+                        <li><strong>Dirección:</strong> San José, Costa Rica</li>
+                        <li><strong>Tel:</strong> +506 2255-0000</li>
+                        <li><strong>Correo:</strong> info@patitosdelretiro.com</li>
+                    </ul>
+
+                    <!-- REDES SOCIALES -->
+                    <div class="footer-social mt-3">
+                        <a href="#" class="social-icon">
+                            <img src="/img/facebook.png" alt="Facebook"/></a>
+                        <a href="#" class="social-icon">
+                            <img src="/img/instagram.png" alt="Instagram"/></a>
+                        <a href="#" class="social-icon">
+                            <img src="/img/whatsapp.png" alt="WhatsApp"/></a>
+                    </div>
+                </div>
+
+            </div>
+
+            <hr class="footer-divider" />
+
+            <div class="text-center small footer-copy mt-3">
+                © @DateTime.Now.Year Patitos del Retiro — Todos los derechos reservados
+            </div>
+
         </div>
     </footer>
+
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     @RenderSection("Scripts", required: false)
