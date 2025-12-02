@@ -135,6 +135,18 @@ namespace AsiloPatitos.WebUI.Controllers
 
             try
             {
+                // VALIDACIÓN: No permitir números duplicados (EXCLUYENDO la misma habitación)
+                bool numeroDuplicado = await _context.Habitaciones.AnyAsync(h =>
+                    h.Numero == habitacion.Numero &&
+                    h.Id != habitacion.Id
+                );
+
+                if (numeroDuplicado)
+                {
+                    TempData["ErrorMessage"] = "Ya existe otra habitación con este número.";
+                    return View(habitacion);
+                }
+
                 _context.Update(habitacion);
                 await _context.SaveChangesAsync();
 
