@@ -144,5 +144,87 @@ namespace AsiloPatitos.WebUI.Controllers
         {
             return HashPassword(password) == hashedPassword;
         }
+
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(string correo)
+        {
+            if (string.IsNullOrWhiteSpace(correo))
+            {
+                TempData["ErrorMessage"] = "Debe ingresar su correo.";
+                return View();
+            }
+
+            var usuario = await _context.Usuarios
+                .FirstOrDefaultAsync(u => u.Correo == correo);
+
+            if (usuario == null)
+            {
+                TempData["ErrorMessage"] = "No existe una cuenta con este correo.";
+                return View();
+            }
+
+            // Crear token
+            var token = Guid.NewGuid().ToString("N");
+
+            usuario.ResetToken = token;
+            usuario.ResetTokenExpiracion = DateTime.Now.AddMinutes(30);
+
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Se generó un enlace para restablecer su contraseña.";
+            TempData["ResetLink"] = $"{Request.Scheme}://{Request.Host}/Usuarios/Restablecer?token={token}";
+
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Restablecer(string token)
+        {
+            if (string.IsNullOrEmpty(token))
+                return RedirectToAction("Login");
+
+            var usuario = await _context.Usuarios
+                .FirstOrDefaultAsync(u => u.ResetToken == token
+                                       && u.ResetTokenExpiracion > DateTime.Now);
+
+            if (usuario == null)
+            {
+                TempData["ErrorMessage"] = "Enlace inválido o expirado.";
+                return RedirectToAction("ForgotPassword");
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Restablecer(string token, string nuevaContrasena)
+        {
+            var usuario = await _context.Usuarios
+                .FirstOrDefaultAsync(u => u.ResetToken == token
+                                       && u.ResetTokenExpiracion > DateTime.Now);
+
+            if (usuario == null)
+            {
+                TempData["ErrorMessage"] = "Enlace inválido o expirado.";
+                return RedirectToAction("ForgotPassword");
+            }
+
+            usuario.Contrasena = HashPassword(nuevaContrasena);
+            usuario.ResetToken = null;
+            usuario.ResetTokenExpiracion = null;
+
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Contraseña actualizada correctamente.";
+            return RedirectToAction("Login");
+        }
     }
 }
