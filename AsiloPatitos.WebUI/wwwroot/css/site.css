@@ -147,6 +147,19 @@ body {
 #servicios {
     background-color: #FFFFFF;
 }
+.card-custom {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: 0.3s;
+    height: 160px; /* Altura uniforme */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 
 /* ============================
    HABITACIONES
@@ -192,15 +205,17 @@ body {
    RESEÑAS
 ============================ */
 .card-review {
-    background-color: #FFFFFF;
-    border: 2px solid var(--gris-borde);
-    border-radius: 16px;
-    padding: 1.2rem;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 25px;
     display: flex;
+    align-items: flex-start;
     gap: 15px;
-    align-items: center;
-    box-shadow: var(--sombra);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    transition: 0.3s;
+    height: 170px; /* ALTURA IGUAL PARA TODAS */
 }
+
 
 .review-avatar {
     width: 55px;
@@ -216,6 +231,13 @@ body {
 .stars {
     color: var(--amarillo);
 }
+.card-review,
+.card-custom,
+.card-room {
+    border: 1.5px solid rgba(143, 102, 45, 0.25); /* marrón suave */
+    border-radius: 18px;
+}
+
 
 /* ============================
    FORMULARIOS
@@ -515,3 +537,66 @@ input[type=submit] {
         background: var(--amarillo-claro);
         transform: scale(1.03);
     }
+/* FOOTER */
+.footer {
+    background: var(--celeste-intenso); /* #56E1EA */
+    padding-top: 50px;
+    color: #4a3a1a; /* café suave más elegante */
+}
+
+/* Títulos */
+.footer-title {
+    color: #8F662D;
+    font-size: 1.4rem;
+}
+
+.footer-subtitle {
+    color: #8F662D;
+    font-size: 1.1rem;
+}
+
+/* Texto */
+.footer-text {
+    color: #4a3a1a;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Enlaces */
+.footer-link {
+    color: #4a3a1a;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 4px;
+    transition: 0.2s;
+    font-size: 0.95rem;
+}
+
+    .footer-link:hover {
+        color: #ffffff;
+        font-weight: 600;
+    }
+
+/* Divider */
+.footer-divider {
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Social icons */
+.footer-social img {
+    width: 34px;
+    height: 34px;
+    margin-right: 10px;
+    transition: 0.25s ease-in-out;
+    border-radius: 50%;
+}
+
+    .footer-social img:hover {
+        transform: scale(1.12);
+        filter: brightness(1.15);
+    }
+
+/* Copyright */
+.footer-copy {
+    color: #ffffff;
+}
