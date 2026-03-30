@@ -255,10 +255,6 @@ namespace AsiloPatitos.Infrastructure.Migrations
                     b.Property<int?>("HabitacionId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Medicamentos")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
                     b.Property<string>("NivelAsistencia")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -655,13 +651,13 @@ namespace AsiloPatitos.Infrastructure.Migrations
                     b.HasOne("AsiloPatitos.Domain.Entities.Medicamento", "Medicamento")
                         .WithMany("PacienteMedicamentos")
                         .HasForeignKey("MedicamentoId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("AsiloPatitos.Domain.Entities.Paciente", "Paciente")
-                        .WithMany()
+                        .WithMany("PacienteMedicamentos")
                         .HasForeignKey("PacienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Medicamento");
@@ -754,6 +750,8 @@ namespace AsiloPatitos.Infrastructure.Migrations
             modelBuilder.Entity("AsiloPatitos.Domain.Entities.Paciente", b =>
                 {
                     b.Navigation("Habitacion");
+
+                    b.Navigation("PacienteMedicamentos");
                 });
 
             modelBuilder.Entity("AsiloPatitos.Domain.Entities.Rol", b =>

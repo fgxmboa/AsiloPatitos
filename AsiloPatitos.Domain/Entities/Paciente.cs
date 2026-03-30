@@ -24,9 +24,6 @@ namespace AsiloPatitos.Domain.Entities
         [DataType(DataType.Date)]
         public DateTime FechaIngreso { get; set; }
 
-        [StringLength(255, ErrorMessage = "El campo de medicamentos no puede superar los 255 caracteres.")]
-        public string? Medicamentos { get; set; }
-
         [StringLength(255, ErrorMessage = "El campo de cuidados especiales no puede superar los 255 caracteres.")]
         public string? CuidadosEspeciales { get; set; }
 
@@ -40,5 +37,7 @@ namespace AsiloPatitos.Domain.Entities
         // Relación con Habitaciones
         public int? HabitacionId { get; set; }
         public Habitacion? Habitacion { get; set; }
+
+        public ICollection<PacienteMedicamento>? PacienteMedicamentos { get; set; }
     }
 }
