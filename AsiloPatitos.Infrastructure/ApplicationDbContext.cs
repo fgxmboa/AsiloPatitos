@@ -122,6 +122,18 @@ namespace AsiloPatitos.Infrastructure
             modelBuilder.Entity<Rol>()
                 .HasIndex(r => r.Nombre)
                 .IsUnique();
+
+            modelBuilder.Entity<PacienteMedicamento>()
+                .HasOne(pm => pm.Paciente)
+                .WithMany(p => p.PacienteMedicamentos)
+                .HasForeignKey(pm => pm.PacienteId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<PacienteMedicamento>()
+                .HasOne(pm => pm.Medicamento)
+                .WithMany(m => m.PacienteMedicamentos)
+                .HasForeignKey(pm => pm.MedicamentoId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
